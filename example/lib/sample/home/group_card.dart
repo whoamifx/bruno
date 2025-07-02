@@ -59,7 +59,6 @@ class GroupCardState extends State<GroupCard>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return BrnPickerClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(6)),
       child: BrnExpandableContainerWidget(

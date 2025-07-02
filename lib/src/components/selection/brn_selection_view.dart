@@ -80,7 +80,6 @@ typedef OnDefaultParamsPrepared = void Function(
 const BrnSelectionConverterDelegate _defaultConverter =
     const DefaultSelectionConverter();
 
-/// 筛选组件
 // ignore: must_be_immutable
 class BrnSelectionView extends StatefulWidget {
   final BrnSelectionConverterDelegate selectionConverterDelegate;

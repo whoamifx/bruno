@@ -7,10 +7,11 @@ import 'package:bruno/src/theme/brn_theme.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/widgets.dart';
 
-///
-/// UI配置相关
-///
 class BrnFormUtil {
+  ///
+  /// UI配置相关
+  ///
+
   /// 获取添加、删除图标
   static Widget buildPrefixIcon(String prefixIconType, bool isEdit,
       BuildContext context, VoidCallback? onAddTap, VoidCallback? onRemoveTap) {
@@ -35,12 +36,14 @@ class BrnFormUtil {
 
   /// 获取错误提示widget
   static Widget buildErrorWidget(String error, BrnFormItemConfig themeData) {
-    return Offstage(
-      offstage: error.isEmpty,
-      child: Container(
-        padding: errorEdgeInsets(themeData),
-        child: Text(error, style: getErrorTextStyle(themeData)),
-      ),
+    return Container(
+      padding: errorEdgeInsets(themeData),
+      child: Offstage(
+          offstage: (error.isEmpty),
+          child: Text(
+            error,
+            style: getErrorTextStyle(themeData),
+          )),
     );
   }
 
@@ -109,7 +112,6 @@ class BrnFormUtil {
     return isEdit;
   }
 
-  //
   static Widget getPrefixIcon(String type) {
     if (type == BrnPrefixIconType.add) {
       return BrunoTools.getAssetImageWithBandColor(BrnAsset.iconAddFormItem);

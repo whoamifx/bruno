@@ -1,7 +1,6 @@
 import 'package:bruno/src/components/dialog/brn_content_export_dialog.dart';
 import 'package:bruno/src/components/line/brn_line.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +21,12 @@ class MultiSelectItem {
   /// 是否选中
   bool isChecked;
 
-  MultiSelectItem(this.code, this.content, {this.isChecked = false});
+  MultiSelectItem(this.code, this.content, {this.isChecked: false});
 }
 
 /// 屏幕中间弹出多选列表弹框
 /// 多用于反馈场景底部有操作按钮，可支持自定义底部操作区域
+
 class BrnMultiSelectDialog extends Dialog {
   /// 是否可关闭  默认true 可关闭
   final bool isClose;
@@ -44,7 +44,7 @@ class BrnMultiSelectDialog extends Dialog {
   final List<MultiSelectItem> conditions;
 
   /// 操作按钮文案
-  final String? submitText;
+  final String submitText;
 
   /// 点击操作按钮
   final BrnMultiSelectDialogClickSubmitCallback? onSubmitClick;
@@ -72,7 +72,7 @@ class BrnMultiSelectDialog extends Dialog {
     this.messageWidget,
     this.customWidget,
     this.isCustomFollowScroll = true,
-    this.submitText,
+    this.submitText = "提交",
     this.submitBgColor,
     this.onSubmitClick,
     this.onItemClick,
@@ -89,7 +89,7 @@ class BrnMultiSelectDialog extends Dialog {
         customWidget: customWidget,
         isCustomFollowScroll: isCustomFollowScroll,
         conditions: conditions,
-        submitText: submitText ?? BrnIntl.of(context).localizedResource.submit,
+        submitText: submitText,
         onSubmitClick: onSubmitClick,
         onItemClick: onItemClick,
         submitBgColor: submitBgColor ??
@@ -182,7 +182,10 @@ class MultiSelectPickerWidgetState extends State<MultiSelect> {
                                 padding: EdgeInsets.only(
                                     left: 20, right: 20, top: 12),
                               )
-                            : const SizedBox.shrink(),
+                            : Container(
+                                width: 0,
+                                height: 0,
+                              ),
                       ],
                     ),
                   )
@@ -200,7 +203,10 @@ class MultiSelectPickerWidgetState extends State<MultiSelect> {
                               padding:
                                   EdgeInsets.only(left: 20, right: 20, top: 12),
                             )
-                          : const SizedBox.shrink(),
+                          : Container(
+                              width: 0,
+                              height: 0,
+                            ),
                     ],
                   ),
           )
@@ -300,7 +306,7 @@ class MultiSelectPickerWidgetState extends State<MultiSelect> {
                 ? Padding(
                     padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: BrnLine())
-                : const SizedBox.shrink()
+                : Container()
           ],
         ));
   }

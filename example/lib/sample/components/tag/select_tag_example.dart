@@ -1,3 +1,5 @@
+
+
 import 'package:bruno/bruno.dart';
 import 'package:flutter/material.dart';
 
@@ -148,7 +150,7 @@ class SelectTagExamplePageState extends State<SelectTagExamplePage> {
     );
   }
 
-  double _getTagWidth(context, {int rowCount = 4}) {
+  double _getTagWidth(context, {int rowCount: 4}) {
     double leftRightPadding = 40;
     double rowSpace = 12;
     return (MediaQuery.of(context).size.width -

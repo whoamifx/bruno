@@ -1,6 +1,5 @@
 import 'package:bruno/src/components/form/base/brn_form_item_type.dart';
 import 'package:bruno/src/components/form/utils/brn_form_util.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +14,9 @@ import 'package:flutter/services.dart';
 class BrnTextBlockInputFormItem extends StatefulWidget {
   /// 录入项的唯一标识，主要用于录入类型页面框架中
   final String? label;
+
+  /// 录入项类型，主要用于录入类型页面框架中
+  final String type = BrnInputItemType.textBlockInputType;
 
   /// 录入项标题
   final String title;
@@ -59,7 +61,7 @@ class BrnTextBlockInputFormItem extends StatefulWidget {
   final int? maxCharCount;
 
   /// 录入项 hint 提示
-  final String? hint;
+  final String hint;
 
   /// 输入内容类型
   final String? inputType;
@@ -102,9 +104,9 @@ class BrnTextBlockInputFormItem extends StatefulWidget {
       this.onRemoveTap,
       this.onTip,
       this.onChanged,
-      this.hint,
+      this.hint = "请输入",
       this.maxCharCount,
-      this.autofocus = false,
+      this.autofocus: false,
       this.inputType,
       this.inputFormatters,
       this.controller,
@@ -118,9 +120,8 @@ class BrnTextBlockInputFormItem extends StatefulWidget {
         .getConfig(configId: this.themeData!.configId)
         .formItemConfig
         .merge(this.themeData);
-    this.themeData = this
-        .themeData!
-        .merge(BrnFormItemConfig(backgroundColor: backgroundColor));
+    this.themeData = this.themeData!.merge(
+        BrnFormItemConfig(backgroundColor: backgroundColor));
   }
 
   @override
@@ -198,8 +199,7 @@ class BrnTextBlockInputFormItemState extends State<BrnTextBlockInputFormItem> {
                   widget.themeData!, widget.isEdit),
               inputFormatters: widget.inputFormatters,
               decoration: InputDecoration(
-                hintText: widget.hint ??
-                    BrnIntl.of(context).localizedResource.pleaseEnter,
+                hintText: widget.hint,
                 hintStyle: BrnFormUtil.getHintTextStyle(widget.themeData!),
                 contentPadding: EdgeInsets.all(0),
                 border: InputBorder.none,

@@ -8,13 +8,13 @@ import 'package:bruno/src/components/selection/controller/brn_flat_selection_con
 import 'package:bruno/src/components/selection/converter/brn_selection_converter.dart';
 import 'package:bruno/src/components/selection/widget/brn_flat_selection_item.dart';
 import 'package:bruno/src/components/toast/brn_toast.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/theme/configs/brn_selection_config.dart';
 import 'package:flutter/material.dart';
 
 /// 支持tag 、输入 、range、选择等类型混合一级筛选
 /// 也可支持点击选项跳转二级页面
+
 // ignore: must_be_immutable
 class BrnFlatSelection extends StatefulWidget {
   /// 筛选原始数据
@@ -246,7 +246,7 @@ class _BrnFlatSelectionState extends State<BrnFlatSelection>
       node = tmp.removeLast();
       if (!node.isValidRange()) {
         isValid = false;
-        BrnToast.show(BrnIntl.of(context).localizedResource.enterRangeError, context);
+        BrnToast.show('您输入的区间有误', context);
         return;
       }
       node.children.forEach((data) {

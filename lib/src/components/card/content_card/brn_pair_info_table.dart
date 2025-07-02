@@ -1,7 +1,7 @@
 import 'dart:math';
+import 'dart:ui' as ui;
 
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme.dart';
 import 'package:bruno/src/utils/brn_rich_text.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
@@ -76,7 +76,7 @@ class BrnPairInfoTable extends StatefulWidget {
   final bool isValueAlign;
 
   /// TableCell 默认垂直对齐方式， 默认值为 [TableCellVerticalAlignment.baseline]
-  /// 当 [BrnInfoModal.valuePart] 为自定义 Widget 时，可设置该参数调整对齐方式，仅在
+  /// 当 [BrnInfoModal.valuePart] 为自定义 Widget 时，可设置该参数调整对齐方式，仅在 
   /// [isValueAlign] 为 true 时设置才生效
   final TableCellVerticalAlignment defaultVerticalAlignment;
 
@@ -96,7 +96,6 @@ class BrnPairInfoTable extends StatefulWidget {
   /// key和value的间距 默认2
   final double? itemSpacing;
 
-  /// the theme config of BrnPairInfoTable
   final BrnPairInfoTableConfig? themeData;
 
   ///对齐情况下，自定义的key展示规则
@@ -107,7 +106,6 @@ class BrnPairInfoTable extends StatefulWidget {
   /// Table 展开收起状态变化的回调
   final ValueChanged<bool>? onFolded;
 
-  /// create BrnPairInfoTable
   BrnPairInfoTable({
     Key? key,
     required this.children,
@@ -134,13 +132,13 @@ class _BrnPairInfoTableState extends State<BrnPairInfoTable> {
   late int _expandAtIndex;
 
   // 收起状态显示的孩子
-  List<BrnInfoModal>? _foldList;
+  List<BrnInfoModal>? foldList;
 
   // 展开状态显示的孩子
-  List<BrnInfoModal?>? _expandedList;
+  List<BrnInfoModal?>? expandedList;
 
   // 在页面呈现的孩子
-  List<BrnInfoModal?>? _showList;
+  List<BrnInfoModal?>? showList;
 
   // 指定位置的最原始 modal
   BrnInfoModal? indexModal;
@@ -166,12 +164,12 @@ class _BrnPairInfoTableState extends State<BrnPairInfoTable> {
     if (_expandAtIndex < 0 ||
         widget.expandAtIndex >= (widget.children.length - 1)) {
       _expandAtIndex = -1;
-      _showList = widget.children;
+      showList = widget.children;
       _canFold = false;
     } else {
       indexModal = widget.children[_expandAtIndex];
-      _foldList = _generateFoldList();
-      _expandedList = _generateExpandedList();
+      foldList = _generateFoldList();
+      expandedList = _generateExpandedList();
       _canFold = true;
     }
     super.initState();
@@ -194,18 +192,18 @@ class _BrnPairInfoTableState extends State<BrnPairInfoTable> {
 
     if (_canFold) {
       if (_isFolded) {
-        _showList = _foldList;
+        showList = foldList;
       } else {
-        _showList = _expandedList;
+        showList = expandedList;
       }
     } else {
-      _showList = widget.children;
+      showList = widget.children;
     }
 
     if (widget.isValueAlign) {
       showWidget = BrnAlignPairInfo(
         defaultVerticalAlignment: widget.defaultVerticalAlignment,
-        children: _showList,
+        children: showList,
         itemSpacing: widget.itemSpacing,
         rowDistance: widget.rowDistance,
         themeData: themeData,
@@ -213,7 +211,7 @@ class _BrnPairInfoTableState extends State<BrnPairInfoTable> {
       );
     } else {
       showWidget = BrnFollowPairInfo(
-        children: _showList,
+        children: showList,
         itemSpacing: widget.itemSpacing,
         rowDistance: widget.rowDistance,
         themeData: themeData,
@@ -287,9 +285,9 @@ class _BrnPairInfoTableState extends State<BrnPairInfoTable> {
     Row row = Row(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(right: 4),
+          padding: EdgeInsets.only(right: 4),
           child: Text(
-            BrnIntl.currentResource.expand,
+            '展开',
             style: TextStyle(
               fontSize: 14,
               color: themeData.commonConfig.colorTextSecondary,
@@ -309,7 +307,7 @@ class _BrnPairInfoTableState extends State<BrnPairInfoTable> {
         });
 
     Container layerCtn = Container(
-      padding: const EdgeInsets.only(left: 30),
+      padding: EdgeInsets.only(left: 30),
       alignment: Alignment.center,
       child: gdt,
       decoration: BoxDecoration(
@@ -346,9 +344,9 @@ class _BrnPairInfoTableState extends State<BrnPairInfoTable> {
     Row row = Row(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.only(right: 4),
+          padding: EdgeInsets.only(right: 4),
           child: Text(
-            BrnIntl.currentResource.collapse,
+            '收起',
             style: TextStyle(
               fontSize: 14,
               color: themeData.commonConfig.colorTextSecondary,
@@ -742,7 +740,6 @@ class BrnInfoModal {
   /// clickCallback 可点击文案点击的回调
   /// isArrow 是否最右侧存在箭头
   static BrnInfoModal valueLastClickInfo(
-      BuildContext context,
     String keyTitle,
     String valueTitle,
     String clickValue, {
@@ -812,7 +809,10 @@ class BrnInfoModal {
               }
             },
           )
-          .addIcon(const SizedBox.shrink())
+          .addIcon(Container(
+            height: 0,
+            width: 0,
+          ))
           .build();
     }
 
@@ -834,7 +834,6 @@ class BrnInfoModal {
   /// valueCallback value的小问号点击的回调
   ///   /// isArrow 是否最右侧存在箭头
   static BrnInfoModal keyOrValueLastQuestionInfo(
-  BuildContext context,
     String keyTitle,
     String valueTitle, {
     bool keyShow = false,
@@ -865,7 +864,7 @@ class BrnInfoModal {
     dynamic keyWidget;
 
     if (isArrow) {
-      MediaQueryData mediaQuery = MediaQueryData.fromView(View.of(context));
+      MediaQueryData mediaQuery = MediaQueryData.fromWindow(ui.window);
       double screen = mediaQuery.size.width;
 
       if (keyShow) {

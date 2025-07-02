@@ -1,51 +1,30 @@
 import 'package:bruno/src/components/button/brn_icon_button.dart';
 import 'package:bruno/src/components/guide/brn_flutter_guide.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
 
-/// 引导组件试，[force] 有蒙层遮挡，[soft] 无蒙层遮挡
 enum GuideMode { force, soft }
 
 /// 默认的引导组件包含，强和弱两种交互模式
 class BrnTipInfoWidget extends StatelessWidget {
-
-  /// 引导组件的方向
   final GuideDirection direction;
-
-  /// 关闭按钮的回调
   final void Function()? onClose;
-
-  /// 下一步按钮的回调
   final void Function()? onNext;
-
-  /// 跳过按钮的回调
   final void Function()? onSkip;
 
-  /// 引导组件的宽度
   final double width;
-
-  /// 引导组件的高度
   final double? height;
-
-  /// 引导组件的内容
   final BrnTipInfoBean info;
-
-  /// 引导模式
   final GuideMode mode;
 
-  /// 当前的引导步数
+  /// Which guide page is currently displayed, starting from 0
   final int currentStepIndex;
 
-  /// 引导步数
+  /// Total number of guide pages
   final int stepCount;
-
-  /// 箭头距离指示的边距
   final double? arrowPadding;
-
-  /// 【下一步】的文案
   final String? nextTip;
 
   const BrnTipInfoWidget(
@@ -73,7 +52,7 @@ class BrnTipInfoWidget extends StatelessWidget {
       return Column(
         verticalDirection: VerticalDirection.up,
         children: <Widget>[
-          _buildContent(context),
+          buildContent(),
           Container(
             alignment: direction == GuideDirection.bottomLeft
                 ? Alignment.bottomRight
@@ -96,7 +75,7 @@ class BrnTipInfoWidget extends StatelessWidget {
         direction == GuideDirection.topRight) {
       return Column(
         children: <Widget>[
-          _buildContent(context),
+          buildContent(),
           Container(
             alignment: direction == GuideDirection.topLeft
                 ? Alignment.topRight
@@ -118,7 +97,7 @@ class BrnTipInfoWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          _buildContent(context),
+          buildContent(),
           Container(
             alignment: Alignment.topLeft,
             padding: EdgeInsets.only(top: 12),
@@ -137,7 +116,7 @@ class BrnTipInfoWidget extends StatelessWidget {
         textDirection: TextDirection.rtl,
         verticalDirection: VerticalDirection.up,
         children: <Widget>[
-          _buildContent(context),
+          buildContent(),
           Container(
             alignment: Alignment.centerLeft,
             padding: EdgeInsets.only(top: 12),
@@ -155,7 +134,7 @@ class BrnTipInfoWidget extends StatelessWidget {
     return Row();
   }
 
-  Widget _buildContent(BuildContext context) {
+  Widget buildContent() {
     return Container(
       decoration: BoxDecoration(
         boxShadow: [
@@ -178,7 +157,7 @@ class BrnTipInfoWidget extends StatelessWidget {
           buildImage(),
           buildTitle(),
           buildMessage(),
-          mode == GuideMode.force ? _buildForceBottom(context) : _buildSoftBottom(context)
+          mode == GuideMode.force ? buildForceBottom() : buildSoftBottom()
         ],
       ),
     );
@@ -241,7 +220,7 @@ class BrnTipInfoWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildSoftBottom(BuildContext context) {
+  Widget buildSoftBottom() {
     if (onNext == null && onSkip == null) return Row();
     return Container(
       height: 32,
@@ -262,7 +241,7 @@ class BrnTipInfoWidget extends StatelessWidget {
                           onSkip!();
                         },
                         child: Text(
-                          '${BrnIntl.of(context).localizedResource.skip} (${currentStepIndex + 1}/$stepCount)',
+                          '跳过 (${currentStepIndex + 1}/$stepCount)',
                           style:
                               TextStyle(color: Color(0xFF999999), fontSize: 14),
                         ),
@@ -294,8 +273,8 @@ class BrnTipInfoWidget extends StatelessWidget {
                         child: Text(
                           nextTip ??
                               (stepCount == currentStepIndex + 1
-                                  ? BrnIntl.of(context).localizedResource.known
-                                  : BrnIntl.of(context).localizedResource.next),
+                                  ? '我知道了'
+                                  : '下一步'),
                           style: TextStyle(color: Colors.white, fontSize: 14),
                         ),
                       ),
@@ -308,7 +287,7 @@ class BrnTipInfoWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildForceBottom(BuildContext context) {
+  Widget buildForceBottom() {
     if (onNext == null && onSkip == null) return Row();
     return Container(
       height: 20,
@@ -329,7 +308,7 @@ class BrnTipInfoWidget extends StatelessWidget {
                           onSkip!();
                         },
                         child: Text(
-                          '${BrnIntl.of(context).localizedResource.skip} (${currentStepIndex + 1}/$stepCount)',
+                          '跳过 (${currentStepIndex + 1}/$stepCount)',
                           style:
                               TextStyle(color: Color(0xFF999999), fontSize: 14),
                         ),
@@ -353,8 +332,8 @@ class BrnTipInfoWidget extends StatelessWidget {
                         child: Text(
                           nextTip ??
                               (stepCount == currentStepIndex + 1
-                                  ? BrnIntl.of(context).localizedResource.known
-                                  : BrnIntl.of(context).localizedResource.next),
+                                  ? '我知道了'
+                                  : '下一步'),
                           style: TextStyle(
                               color: BrnThemeConfigurator.instance
                                   .getConfig()

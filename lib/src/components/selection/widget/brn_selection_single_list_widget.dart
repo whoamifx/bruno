@@ -3,40 +3,23 @@ import 'package:bruno/src/components/selection/brn_selection_util.dart';
 import 'package:bruno/src/components/selection/widget/brn_selection_common_item_widget.dart';
 import 'package:bruno/src/components/selection/widget/brn_selection_list_widget.dart';
 import 'package:bruno/src/components/toast/brn_toast.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/configs/brn_selection_config.dart';
 import 'package:flutter/material.dart';
 
-/// 单列选择子组件
 // ignore: must_be_immutable
 class BrnSelectionSingleListWidget extends StatefulWidget {
   late List<BrnSelectionEntity> _selectedItems;
-
-  /// 当前选择的项
   late int currentListIndex;
 
-  /// 筛选数据
   List<BrnSelectionEntity> items;
-
-  /// 占父容器宽度的比例
   int flex;
-
-  /// 焦点位置
   int focusedIndex;
-
-  /// 最大高度
   double maxHeight;
 
-  /// 背景色
   Color? backgroundColor;
-
-  /// 选中项背景色
   Color? selectedBackgroundColor;
-
-  /// 单选回调
   SingleListItemSelect? singleListItemSelect;
 
-  /// 主题配置
   BrnSelectionConfig themeData;
 
   BrnSelectionSingleListWidget({
@@ -120,12 +103,12 @@ class _BrnSelectionSingleListWidgetState
                       /// 同级别中，存在不限类型已经选中情况，选择非不限类型 item，不检查数量限制
                     } else if (entity.isInLastLevel() &&
                         !BrnSelectionUtil.checkMaxSelectionCount(entity)) {
-                      BrnToast.show(BrnIntl.of(context).localizedResource.filterConditionCountLimited, context);
+                      BrnToast.show("您选择的筛选条件数量已达上限", context);
                       return;
                     }
                   } else {
                     if (!BrnSelectionUtil.checkMaxSelectionCount(entity)) {
-                      BrnToast.show(BrnIntl.of(context).localizedResource.filterConditionCountLimited, context);
+                      BrnToast.show("您选择的筛选条件数量已达上限", context);
                       return;
                     }
                   }
@@ -219,7 +202,6 @@ class _BrnSelectionSingleListWidgetState
     }
   }
 
-  /// 根据父子层级数据，配置节点选中状态
   void configMultiLevelList(
       BrnSelectionEntity selectedEntity, int currentListIndex) {
     /// 选中【不限】清除同一级别其他的状态

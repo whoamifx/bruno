@@ -1,6 +1,5 @@
 import 'package:bruno/src/components/picker/brn_picker_cliprrect.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,7 @@ class BrnSelectTagsWithInputPicker extends Dialog {
   final String title;
 
   ///输入框默认提示文案
-  final String? hintText;
+  final String hintText;
 
   ///输入框最大能输入的字符长度。默认值 200
   final int maxLength;
@@ -57,7 +56,7 @@ class BrnSelectTagsWithInputPicker extends Dialog {
 
   const BrnSelectTagsWithInputPicker(
       {this.maxLength = 200,
-      this.hintText,
+      this.hintText = "请输入",
       this.title = "",
       this.confirm,
       this.cancelCallBack,
@@ -75,7 +74,7 @@ class BrnSelectTagsWithInputPicker extends Dialog {
       title: title,
       confirm: confirm,
       maxLength: maxLength,
-      hintText: hintText ?? BrnIntl.of(context).localizedResource.pleaseEnter,
+      hintText: hintText,
       cursorColor: cursorColor ??
           BrnThemeConfigurator.instance.getConfig().commonConfig.brandPrimary,
       forceShowTextInput: forceShowTextInput,
@@ -185,7 +184,7 @@ class _BrnSelectTagsWithInputPickerWidgetState
         color: Colors.white,
         height: 200,
         child: Center(
-          child: Text(BrnIntl.of(context).localizedResource.noTagDataTip),
+          child: Text('暂未配置可选标签数据'),
         ),
       ),
     ];
@@ -257,7 +256,7 @@ class _BrnSelectTagsWithInputPickerWidgetState
               fontWeight: FontWeight.w600,
             ),
           ),
-          GestureDetector(
+          InkWell(
               onTap: () {
                 if (widget.cancelCallBack != null) {
                   widget.cancelCallBack!(context);
@@ -440,7 +439,7 @@ class _BrnSelectTagsWithInputPickerWidgetState
                 borderRadius: BorderRadius.all(Radius.circular(4))),
             child: Center(
               child: Text(
-                  BrnIntl.of(context).localizedResource.submit,
+                '提交',
                 style: TextStyle(
                     fontSize: 16,
                     color: Colors.white,

@@ -1,7 +1,6 @@
 import 'package:bruno/src/components/appraise/brn_appraise.dart';
 import 'package:bruno/src/components/appraise/brn_appraise_header.dart';
 import 'package:bruno/src/components/appraise/brn_appraise_config.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:flutter/material.dart';
 import 'package:bruno/src/components/appraise/brn_appraise_interface.dart';
 
@@ -21,7 +20,7 @@ class BrnAppraiseBottomPicker extends StatefulWidget {
   /// 自定义文案
   /// 若评分组件为表情，则list长度为5，不足5个时请在对应位置补空字符串
   /// 若评分组件为星星，则list长度不能比count小
-  final List<String>? iconDescriptions;
+  final List<String> iconDescriptions;
 
   /// 标签
   final List<String>? tags;
@@ -35,13 +34,21 @@ class BrnAppraiseBottomPicker extends StatefulWidget {
   /// 评价组件的配置项
   final BrnAppraiseConfig config;
 
-  /// create BrnAppraiseBottomPicker
+  /// 评价组建每个评分对应的默认文案
+  static const List<String> _defaultIconDescriptions = [
+    '不好',
+    '还行',
+    '满意',
+    '很棒',
+    '超惊喜'
+  ];
+
   BrnAppraiseBottomPicker({
     Key? key,
     this.title = '',
     this.headerType = BrnAppraiseHeaderType.spaceBetween,
     this.type = BrnAppraiseType.star,
-    this.iconDescriptions,
+    this.iconDescriptions = _defaultIconDescriptions,
     this.tags,
     this.inputHintText = '',
     this.onConfirm,
@@ -65,8 +72,7 @@ class _BrnAppraiseBottomPickerState extends State<BrnAppraiseBottomPicker> {
           title: widget.title,
           headerType: widget.headerType,
           type: widget.type,
-          iconDescriptions:
-              widget.iconDescriptions ?? BrnIntl.of(context).localizedResource.appriseLevel,
+          iconDescriptions: widget.iconDescriptions,
           tags: widget.tags,
           inputHintText: widget.inputHintText,
           onConfirm: (index, list, input) {

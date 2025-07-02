@@ -1,3 +1,5 @@
+
+
 import 'dart:math';
 
 import 'package:bruno/src/components/picker/base/brn_picker.dart';
@@ -6,6 +8,7 @@ import 'package:bruno/src/components/picker/base/brn_picker_title_config.dart';
 import 'package:bruno/src/components/picker/time_picker/brn_date_picker_constants.dart';
 import 'package:bruno/src/components/picker/time_picker/brn_date_time_formatter.dart';
 import 'package:bruno/src/theme/brn_theme.dart';
+import 'package:bruno/src/utils/i18n/brn_date_picker_i18n.dart';
 import 'package:flutter/material.dart';
 
 enum ColumnType { year, month, day, hour, minute, second }
@@ -18,8 +21,9 @@ class BrnDateTimeWidget extends StatefulWidget {
     this.minDateTime,
     this.maxDateTime,
     this.initDateTime,
-    this.dateFormat = datetimePickerTimeFormat,
-    this.pickerTitleConfig = BrnPickerTitleConfig.Default,
+    this.dateFormat: datetimePickerTimeFormat,
+    this.locale: datetimePickerLocaleDefault,
+    this.pickerTitleConfig: BrnPickerTitleConfig.Default,
     this.onCancel,
     this.onChange,
     this.onConfirm,
@@ -39,6 +43,7 @@ class BrnDateTimeWidget extends StatefulWidget {
   final DateTime? minDateTime, maxDateTime, initDateTime;
   final int? minuteDivider;
   final String? dateFormat;
+  final DateTimePickerLocale locale;
   final BrnPickerTitleConfig pickerTitleConfig;
 
   final DateVoidCallback? onCancel;
@@ -185,6 +190,7 @@ class _BrnDateTimeWidgetState extends State<BrnDateTimeWidget> {
         widget.pickerTitleConfig.showTitle) {
       Widget titleWidget = BrnPickerTitle(
         pickerTitleConfig: widget.pickerTitleConfig,
+        locale: widget.locale,
         onCancel: () => _onPressedCancel(),
         onConfirm: () => _onPressedConfirm(),
       );
@@ -466,7 +472,8 @@ class _BrnDateTimeWidgetState extends State<BrnDateTimeWidget> {
     return Container(
       height: widget.themeData!.itemHeight,
       alignment: Alignment.center,
-      child: Text(DateTimeFormatter.formatDateTime(value, format),
+      child: Text(
+          DateTimeFormatter.formatDateTime(value, format, widget.locale),
           style: textStyle),
     );
   }

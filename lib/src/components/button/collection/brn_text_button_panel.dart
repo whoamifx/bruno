@@ -1,6 +1,5 @@
 import 'package:bruno/src/components/popup/brn_popup_window.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/utils/brn_multi_click_util.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
@@ -25,7 +24,6 @@ class BrnTextButtonPanel extends StatefulWidget {
   /// 默认值为PopDirection.bottom
   final BrnPopupDirection popDirection;
 
-  /// create BrnTextButtonPanel
   const BrnTextButtonPanel({
     Key? key,
     required this.nameList,
@@ -130,7 +128,7 @@ class _BrnTextButtonPanelState extends State<BrnTextButtonPanel> {
       }
 
       Text tx = Text(
-        _isExpanded ? BrnIntl.of(context).localizedResource.collapse : BrnIntl.of(context).localizedResource.more,
+        _isExpanded ? '收起' : '更多',
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(

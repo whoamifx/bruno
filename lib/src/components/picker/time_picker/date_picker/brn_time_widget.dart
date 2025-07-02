@@ -1,3 +1,5 @@
+
+
 import 'dart:math';
 
 import 'package:bruno/src/components/picker/base/brn_picker.dart';
@@ -6,13 +8,13 @@ import 'package:bruno/src/components/picker/base/brn_picker_title_config.dart';
 import 'package:bruno/src/components/picker/time_picker/brn_date_picker_constants.dart';
 import 'package:bruno/src/components/picker/time_picker/brn_date_time_formatter.dart';
 import 'package:bruno/src/theme/brn_theme.dart';
+import 'package:bruno/src/utils/i18n/brn_date_picker_i18n.dart';
 import 'package:flutter/material.dart';
 
 /// TimePicker widget.
 
 enum ColumnType { hour, minute, second }
 
-/// BrnTimeWidget widget. Can display time picker
 // ignore: must_be_immutable
 class BrnTimeWidget extends StatefulWidget {
   BrnTimeWidget({
@@ -20,8 +22,9 @@ class BrnTimeWidget extends StatefulWidget {
     this.minDateTime,
     this.maxDateTime,
     this.initDateTime,
-    this.dateFormat = datetimePickerTimeFormat,
-    this.pickerTitleConfig = BrnPickerTitleConfig.Default,
+    this.dateFormat: datetimePickerTimeFormat,
+    this.locale: datetimePickerLocaleDefault,
+    this.pickerTitleConfig: BrnPickerTitleConfig.Default,
     this.minuteDivider = 1,
     this.onCancel,
     this.onChange,
@@ -40,6 +43,7 @@ class BrnTimeWidget extends StatefulWidget {
 
   final DateTime? minDateTime, maxDateTime, initDateTime;
   final String? dateFormat;
+  final DateTimePickerLocale locale;
   final BrnPickerTitleConfig pickerTitleConfig;
   final DateVoidCallback? onCancel;
   final DateValueCallback? onChange, onConfirm;
@@ -139,6 +143,7 @@ class _BrnTimeWidgetState extends State<BrnTimeWidget> {
         widget.pickerTitleConfig.showTitle) {
       Widget titleWidget = BrnPickerTitle(
         pickerTitleConfig: widget.pickerTitleConfig,
+        locale: widget.locale,
         onCancel: () => _onPressedCancel(),
         onConfirm: () => _onPressedConfirm(),
       );
@@ -295,7 +300,8 @@ class _BrnTimeWidgetState extends State<BrnTimeWidget> {
     return Container(
       height: widget.themeData!.itemHeight,
       alignment: Alignment.center,
-      child: Text(DateTimeFormatter.formatDateTime(value, format),
+      child: Text(
+          DateTimeFormatter.formatDateTime(value, format, widget.locale),
           style: textStyle),
     );
   }

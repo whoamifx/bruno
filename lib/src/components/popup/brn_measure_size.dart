@@ -4,7 +4,7 @@ import 'package:flutter/rendering.dart';
 
 typedef OnWidgetSizeChange = void Function(Size size);
 
-/// 监听 Widget 宽高的工具类。
+/// 描述: 计算 Widget 宽高的工具类。
 class MeasureSizeRenderObject extends RenderProxyBox {
   Size? oldSize;
   final OnWidgetSizeChange onChange;
@@ -29,7 +29,6 @@ class MeasureSizeRenderObject extends RenderProxyBox {
   }
 }
 
-/// 监听 Widget 宽高变化的工具类
 class MeasureSize extends SingleChildRenderObjectWidget {
   final OnWidgetSizeChange onChange;
 

@@ -9,10 +9,10 @@ import 'package:bruno/src/components/selection/widget/brn_selection_animate_widg
 import 'package:bruno/src/components/selection/widget/brn_selection_list_widget.dart';
 import 'package:bruno/src/components/selection/widget/brn_selection_menu_item_widget.dart';
 import 'package:bruno/src/components/selection/widget/brn_selection_range_widget.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/configs/brn_selection_config.dart';
 import 'package:bruno/src/utils/brn_event_bus.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
+import 'package:bruno/src/utils/i18n/brn_date_picker_i18n.dart';
 import 'package:flutter/material.dart';
 
 typedef BrnOnMenuItemClick = bool Function(int index);
@@ -20,24 +20,13 @@ typedef BrnOnMenuItemClick = bool Function(int index);
 typedef BrnOnRangeSelectionConfirm = void Function(BrnSelectionEntity results,
     int firstIndex, int secondIndex, int thirdIndex);
 
-/// 筛选菜单子组件
 class BrnSelectionMenuWidget extends StatefulWidget {
-  /// 筛选菜单数据
   final List<BrnSelectionEntity> data;
   final BuildContext context;
-
-  /// 筛选菜单高度
   final double height;
-  /// 筛选菜单宽度
   final double? width;
-
-  /// 确认回调
   final BrnOnRangeSelectionConfirm? onConfirm;
-
-  /// 筛选菜单项点击回调
   final BrnOnMenuItemClick? onMenuItemClick;
-
-  /// 每行的 tag 数，用于子组件配置
   final BrnConfigTagCountPerRow? configRowCount;
 
   ///筛选所在列表的外部列表滚动需要收起筛选，此处为最外层列表，有点恶心，但是暂时只想到这个方法，有更好方式的一定要告诉我
@@ -46,7 +35,6 @@ class BrnSelectionMenuWidget extends StatefulWidget {
   ///指定筛选固定的相对于屏幕的顶部距离，默认null不指定
   final double? constantTop;
 
-  /// 筛选菜单主题
   final BrnSelectionConfig themeData;
 
   BrnSelectionMenuWidget(
@@ -242,7 +230,7 @@ class _BrnSelectionMenuWidgetState extends State<BrnSelectionMenuWidget> {
                     BrnSelectionFilterType.customHandle) {
               /// 创建 筛选组件的的入口
               OverlayEntry entry = _createEntry(widget.data[index]);
-              Overlay.of(widget.context).insert(entry);
+              Overlay.of(widget.context)?.insert(entry);
 
               listViewController.entry = entry;
               listViewController.show(index);
@@ -487,7 +475,7 @@ class _BrnSelectionMenuWidgetState extends State<BrnSelectionMenuWidget> {
           list[0].customMap!['min']);
       if (minDate != null) {
         minDateTime = DateTimeFormatter.formatDate(
-            minDate, BrnIntl.of(context).localizedResource.dateFormatYYYYMMDD);
+            minDate, 'yyyy年MM月dd日', DateTimePickerLocale.zh_cn);
       }
     }
     if (list[0].customMap != null &&
@@ -497,7 +485,7 @@ class _BrnSelectionMenuWidgetState extends State<BrnSelectionMenuWidget> {
           list[0].customMap!['max']);
       if (maxDate != null) {
         maxDateTime = DateTimeFormatter.formatDate(
-            maxDate, BrnIntl.of(context).localizedResource.dateFormatYYYYMMDD);
+            maxDate, 'yyyy年MM月dd日', DateTimePickerLocale.zh_cn);
       }
     }
     return '$minDateTime-$maxDateTime';
@@ -509,7 +497,8 @@ class _BrnSelectionMenuWidgetState extends State<BrnSelectionMenuWidget> {
     title = msDateTime != null
         ? DateTimeFormatter.formatDate(
             DateTime.fromMillisecondsSinceEpoch(msDateTime),
-            BrnIntl.of(context).localizedResource.dateFormatYYYYMMDD)
+            'yyyy年MM月dd日',
+            DateTimePickerLocale.zh_cn)
         : list[0].title;
     return title;
   }

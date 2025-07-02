@@ -124,11 +124,11 @@ class BrnHorizontalStepsState extends State<BrnHorizontalSteps> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         index == 0
-            ? Expanded(child: const SizedBox.shrink())
+            ? Expanded(child: SizedBox.shrink())
             : _applyLineItem(index, true),
         _applyStepIcon(step, index),
         index == widget.steps.length - 1
-            ? Expanded(child: const SizedBox.shrink())
+            ? Expanded(child: SizedBox.shrink())
             : _applyLineItem(index, false),
       ],
     );

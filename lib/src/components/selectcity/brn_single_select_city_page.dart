@@ -8,7 +8,6 @@ import 'package:bruno/src/components/selectcity/brn_select_city_model.dart';
 import 'package:bruno/src/components/sugsearch/brn_search_text.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
 import 'package:bruno/src/constants/brn_strings_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:bruno/src/constants/brn_fonts_constants.dart';
 import 'package:flutter/material.dart';
@@ -39,9 +38,6 @@ class BrnSingleSelectCityPage extends StatefulWidget {
   /// 单选项 点击的回调
   final ValueChanged<BrnSelectCityModel>? onValueChanged;
 
-  /// 空页面中间展位图展示
-  final Image? emptyImage;
-
   BrnSingleSelectCityPage({
     this.appBarTitle = '',
     this.hotCityTitle = '',
@@ -50,7 +46,6 @@ class BrnSingleSelectCityPage extends StatefulWidget {
     this.showSearchBar = true,
     this.locationText = '',
     this.onValueChanged,
-    this.emptyImage,
   });
 
   @override
@@ -142,7 +137,7 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
         Container(
           padding: EdgeInsets.only(left: 20, right: 10, top: 20, bottom: 0),
           child: Text(
-            widget.hotCityTitle ?? BrnIntl.of(context).localizedResource.recommandCity,
+            widget.hotCityTitle ?? '这里是推荐城市',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.w500,
@@ -238,7 +233,7 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
   Widget _buildSearchBar() {
     return BrnSearchText(
       searchController: _brnSearchTextController,
-      hintText: BrnIntl.of(context).localizedResource.inputSearchTip,
+      hintText: '请输入搜索信息',
       onTextChange: (text) {
         _searchText = text;
         _showCityStack = text.isEmpty;
@@ -278,15 +273,15 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: BrnAppBar(title: widget.appBarTitle ?? BrnIntl.of(context).localizedResource.selectCity),
+        appBar: BrnAppBar(title: widget.appBarTitle ?? '城市选择'),
         body: Container(
           decoration: BoxDecoration(color: Colors.white),
           child: Column(
             children: <Widget>[
               widget.locationText.isEmpty
-                  ? const SizedBox.shrink()
+                  ? Container()
                   : _buildLocationBar(widget.locationText),
-              widget.showSearchBar ? _buildSearchBar() : const SizedBox.shrink(),
+              widget.showSearchBar ? _buildSearchBar() : Container(),
               Divider(
                 height: .0,
               ),
@@ -364,8 +359,8 @@ class _BrnSingleSelectCityPageState extends State<BrnSingleSelectCityPage> {
   Widget _noDataWidget() {
     return Container(
       child: BrnAbnormalStateWidget(
-        img: BrunoTools.getAssetImage(BrnAsset.noData),
-        title: BrnIntl.of(context).localizedResource.noSearchData,
+        img: BrunoTools.getAssetImage(BrnAsset.emptyState),
+        title: BrnStrings.noSearchData,
       ),
     );
   }

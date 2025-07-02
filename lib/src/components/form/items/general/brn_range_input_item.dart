@@ -1,6 +1,7 @@
+
+
 import 'package:bruno/src/components/form/base/brn_form_item_type.dart';
 import 'package:bruno/src/components/form/utils/brn_form_util.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/theme/configs/brn_form_config.dart';
 import 'package:bruno/src/constants/brn_fonts_constants.dart';
@@ -17,6 +18,9 @@ import 'package:flutter/services.dart';
 class BrnRangeInputFormItem extends StatefulWidget {
   /// 录入项的唯一标识，主要用于录入类型页面框架中
   final String? label;
+
+  /// 录入项类型，主要用于录入类型页面框架中
+  String type = BrnInputItemType.textRangeInputType;
 
   /// 录入项标题
   final String title;
@@ -58,10 +62,10 @@ class BrnRangeInputFormItem extends StatefulWidget {
   final VoidCallback? onTip;
 
   /// 最小值提示语
-  String? hintMin;
+  final String hintMin;
 
   /// 最大值提示语
-  String? hintMax;
+  final String hintMax;
 
   /// 最小值单位
   final String? minUnit;
@@ -98,19 +102,19 @@ class BrnRangeInputFormItem extends StatefulWidget {
   BrnRangeInputFormItem(
       {Key? key,
       this.label,
-      this.title = "",
+      this.title: "",
       this.subTitle,
       this.tipLabel,
-      this.prefixIconType = BrnPrefixIconType.normal,
-      this.error = "",
-      this.isEdit = true,
-      this.isRequire = false,
-      this.isPrefixIconEnabled = false,
+      this.prefixIconType: BrnPrefixIconType.normal,
+      this.error: "",
+      this.isEdit: true,
+      this.isRequire: false,
+      this.isPrefixIconEnabled: false,
       this.onAddTap,
       this.onRemoveTap,
       this.onTip,
-      this.hintMin,
-      this.hintMax,
+      this.hintMin: '最小',
+      this.hintMax: '最大',
       this.minUnit,
       this.maxUnit,
       this.leftMaxCount,
@@ -130,9 +134,8 @@ class BrnRangeInputFormItem extends StatefulWidget {
         .getConfig(configId: this.themeData!.configId)
         .formItemConfig
         .merge(this.themeData);
-    this.themeData = this
-        .themeData!
-        .merge(BrnFormItemConfig(backgroundColor: backgroundColor));
+    this.themeData = this.themeData!.merge(
+        BrnFormItemConfig(backgroundColor: backgroundColor));
   }
 
   @override
@@ -209,8 +212,7 @@ class BrnRangeInputFormItemState extends State<BrnRangeInputFormItem> {
                             border: InputBorder.none,
                             hintStyle:
                                 BrnFormUtil.getHintTextStyle(widget.themeData!),
-                            hintText: widget.hintMin ??
-                                BrnIntl.of(context).localizedResource.min,
+                            hintText: widget.hintMin,
                             counterText: "",
                             contentPadding: EdgeInsets.all(0),
                             isDense: true,
@@ -265,8 +267,7 @@ class BrnRangeInputFormItemState extends State<BrnRangeInputFormItem> {
                             border: InputBorder.none,
                             hintStyle:
                                 BrnFormUtil.getHintTextStyle(widget.themeData!),
-                            hintText: widget.hintMax ??
-                                BrnIntl.of(context).localizedResource.max,
+                            hintText: widget.hintMax,
                             counterText: "",
                             contentPadding: EdgeInsets.all(0),
                             isDense: true,

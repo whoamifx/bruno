@@ -1,3 +1,5 @@
+
+
 import 'package:bruno/src/constants/brn_asset_constants.dart';
 import 'package:bruno/src/constants/brn_strings_constants.dart';
 import 'package:bruno/src/theme/brn_theme.dart';
@@ -54,8 +56,6 @@ import 'package:flutter/material.dart';
 ///
 ///
 class BrnEnhanceNumberCard extends StatelessWidget {
-
-  /// 待展示的信息
   final List<BrnNumberInfoItemModel>? itemChildren;
 
   ///如果超过一行，行间距则 默认为16
@@ -73,13 +73,10 @@ class BrnEnhanceNumberCard extends StatelessWidget {
   ///左侧的间距 默认20
   final EdgeInsets padding;
 
-  /// 文本内容对齐方式
   final TextAlign itemTextAlign;
 
-  /// the theme config of BrnEnhanceNumberCard
   final BrnEnhanceNumberCardConfig? themeData;
 
-  /// create BrnEnhanceNumberCard
   BrnEnhanceNumberCard({
     Key? key,
     this.itemChildren,
@@ -105,11 +102,17 @@ class BrnEnhanceNumberCard extends StatelessWidget {
         .merge(defaultConfig);
 
     if (itemChildren == null || itemChildren!.isEmpty) {
-      return const SizedBox.shrink();
+      return Container(
+        height: 0,
+        width: 0,
+      );
     }
     return LayoutBuilder(
       builder: (context, constraints) {
-        Widget contentWidget = const SizedBox.shrink();
+        Widget contentWidget = Container(
+          height: 0,
+          width: 0,
+        );
         // 容错显示的行数 显示三行
         int count = rowCount;
         if (rowCount <= 0 || rowCount > itemChildren!.length) {
@@ -148,10 +151,13 @@ class BrnEnhanceNumberCard extends StatelessWidget {
                       )),
                       //分割线的显示规则是：固定高度47
                       //                item之间显示，最后一个不显示
-                      Container(
-                        height: 47,
-                        width: !allCondition ? defaultConfig.dividerWidth : 0,
-                        color: defaultConfig.commonConfig.dividerColorBase,
+                      Visibility(
+                        visible: !allCondition,
+                        child: Container(
+                          height: 47,
+                          width: defaultConfig.dividerWidth,
+                          color: defaultConfig.commonConfig.dividerColorBase,
+                        ),
                       ),
                     ],
                   ));
@@ -240,44 +246,44 @@ class BrnEnhanceNumberCard extends StatelessWidget {
       style: config.descTextStyle.generateTextStyle(),
       overflow: TextOverflow.ellipsis,
     );
-    Widget? icon;
     if (model.iconTapCallBack != null) {
-      icon = BrunoTools.getAssetSizeImage(BrnAsset.iconQuestion, 14, 14);
+      Widget icon = BrunoTools.getAssetSizeImage(BrnAsset.iconQuestion, 14, 14);
 
       if (model.numberInfoIcon == BrnNumberInfoIcon.arrow) {
         icon = BrunoTools.getAssetSizeImage(BrnAsset.iconRightArrow, 14, 14);
       }
       debugPrint('${tp.height}');
       debugPrint(model.title);
-    }
-    text = Row(
-      mainAxisAlignment: itemTextAlign == TextAlign.center
-          ? MainAxisAlignment.center
-          : (itemTextAlign == TextAlign.right
-              ? MainAxisAlignment.end
-              : MainAxisAlignment.start),
-      crossAxisAlignment:
-          tp.height > 22 ? CrossAxisAlignment.end : CrossAxisAlignment.center,
-      children: <Widget>[
-        Flexible(
-          child: text,
-        ),
-        if (icon != null)
+      text = Row(
+        mainAxisAlignment: itemTextAlign == TextAlign.center
+            ? MainAxisAlignment.center
+            : (itemTextAlign == TextAlign.right
+                ? MainAxisAlignment.end
+                : MainAxisAlignment.start),
+        crossAxisAlignment:
+            tp.height > 22 ? CrossAxisAlignment.end : CrossAxisAlignment.center,
+        children: <Widget>[
+          Flexible(
+            child: text,
+          ),
           GestureDetector(
             onTap: () {
               model.iconTapCallBack!(model);
             },
             child: icon,
           )
-      ],
-    );
-
+        ],
+      );
+    }
     return text;
   }
 
   Widget _getPreWidget(String? preDesc, BrnEnhanceNumberCardConfig config) {
     if (preDesc == null || preDesc.isEmpty) {
-      return const SizedBox.shrink();
+      return Container(
+        height: 0,
+        width: 0,
+      );
     }
     return Padding(
       padding: const EdgeInsets.only(left: 1),
@@ -296,7 +302,10 @@ class BrnEnhanceNumberCard extends StatelessWidget {
 
   Widget _getLastWidget(String? lastDesc, BrnEnhanceNumberCardConfig config) {
     if (lastDesc == null || lastDesc.isEmpty) {
-      return const SizedBox.shrink();
+      return Container(
+        height: 0,
+        width: 0,
+      );
     }
     return Padding(
       padding: const EdgeInsets.only(left: 1, top: 0),
@@ -353,8 +362,6 @@ class BrnNumberInfoItemModel {
 
 ///可扩展
 enum BrnNumberInfoIcon {
-  /// 箭头
   arrow,
-  /// 问号
   question,
 }

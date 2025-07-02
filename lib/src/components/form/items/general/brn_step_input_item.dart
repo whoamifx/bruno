@@ -1,10 +1,6 @@
-import 'package:bruno/src/components/form/base/brn_form_item_type.dart';
-import 'package:bruno/src/components/form/base/input_item_interface.dart';
+import 'package:bruno/bruno.dart';
 import 'package:bruno/src/components/form/utils/brn_form_util.dart';
-import 'package:bruno/src/constants/brn_asset_constants.dart';
 import 'package:bruno/src/constants/brn_fonts_constants.dart';
-import 'package:bruno/src/theme/brn_theme.dart';
-import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -18,6 +14,9 @@ import 'package:flutter/services.dart';
 class BrnStepInputFormItem extends StatefulWidget {
   /// 录入项的唯一标识，主要用于录入类型页面框架中
   final String? label;
+
+  /// 录入项类型，主要用于录入类型页面框架中
+  final String type = BrnInputItemType.textStepInputType;
 
   /// 录入项标题
   final String title;
@@ -343,14 +342,7 @@ class RangeLimitedTextInputFormatter extends TextInputFormatter {
       return const TextEditingValue(
           text: '', selection: TextSelection.collapsed(offset: 0));
     } else if (newNum != null && minValue <= newNum && newNum <= maxValue) {
-      /// perf issue:#458，eg. '020' should displayed as '20'
-      if (newNum.toString() != newValue.text) {
-        return TextEditingValue(
-            text: newNum.toString(),
-            selection: TextSelection.collapsed(offset: newNum.toString().length));
-      } else {
-        return newValue;
-      }
+      return newValue;
     } else {
       return oldValue;
     }

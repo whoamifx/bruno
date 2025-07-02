@@ -105,7 +105,7 @@ BrnTabBar({
 | unselectedLabelColor | Color?                    | 未选中 Tab 文本的颜色                                        | 否           | 纯黑文字 #222222                                       |
 | unselectedLabelStyle | TextStyle?                | 未选中 Tab 文本的样式                                        | 否           | TextStyle(fontSize: 16, fontWeight: FontWeight.normal) |
 | dragStartBehavior    | DragStartBehavior         | 处理拖动开始的行为                                           | 否           | DragStartBehavior.start                                |
-| onTap                | BrnTabBarOnTap?           | Tab的选中点击事件                                         | 否           | 无                                                     |
+| onTap                | BrnTabBarOnTap?           | 底部按钮之间的分割线                                         | 否           | 无                                                     |
 | tabWidth             | double?                   | 组件每个 Tab 的宽度                                          | 否           | 无                                                     |
 | hasDivider           | bool                      | 是否显示 Tab 间分隔线                                        | 否           | false：不显示                                          |
 | hasIndex             | bool                      | 是否显示 Tab 文本上面角标                                    | 否           | false：不显示                                          |

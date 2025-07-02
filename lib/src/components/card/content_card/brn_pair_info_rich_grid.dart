@@ -1,3 +1,7 @@
+
+
+import 'dart:ui' as ui;
+
 import 'package:bruno/src/constants/brn_asset_constants.dart';
 import 'package:bruno/src/theme/base/brn_text_style.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
@@ -35,8 +39,6 @@ import 'package:flutter/material.dart';
 ///  * [BrnPairInfoTable], 单列key-value信息集合组件
 ///
 class BrnRichInfoGrid extends StatelessWidget {
-
-  /// 待展示的文本信息
   final List<BrnRichGridInfo>? pairInfoList;
 
   ///行间距 纵向
@@ -49,16 +51,13 @@ class BrnRichInfoGrid extends StatelessWidget {
   ///元素间距 横向
   final double? space;
 
-  /// item 的高度
   final double? itemHeight;
 
   /// 一共多少列 默认2列
   final int crossAxisCount;
 
-  /// the theme config of BrnRichInfoGrid
   final BrnPairRichInfoGridConfig? themeData;
 
-  /// create BrnRichInfoGrid
   BrnRichInfoGrid({
     Key? key,
     this.pairInfoList,
@@ -73,7 +72,10 @@ class BrnRichInfoGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (pairInfoList == null || pairInfoList!.isEmpty) {
-      return const SizedBox.shrink();
+      return Container(
+        height: 0,
+        width: 0,
+      );
     }
 
     return _buildGridView(context);
@@ -137,7 +139,10 @@ class BrnRichInfoGrid extends StatelessWidget {
   Widget _getKeyWidget(BrnRichGridInfo info, double width, BuildContext context,
       BrnPairRichInfoGridConfig config) {
     if (info.keyPart == null) {
-      return const SizedBox.shrink();
+      return Container(
+        height: 0,
+        width: 0,
+      );
     }
 
     if (info.keyPart is String) {
@@ -153,7 +158,10 @@ class BrnRichInfoGrid extends StatelessWidget {
       return info.keyPart;
     }
 
-    return const SizedBox.shrink();
+    return Container(
+      height: 0,
+      width: 0,
+    );
   }
 
   Widget _getValueWidget(
@@ -174,14 +182,14 @@ class BrnRichInfoGrid extends StatelessWidget {
       return info.valuePart;
     }
 
-    return const SizedBox.shrink();
+    return Container(
+      height: 0,
+      width: 0,
+    );
   }
 }
 
-/// 用于构建文本信息
 class BrnRichGridInfo {
-
-  ///
   final dynamic keyPart;
   final dynamic valuePart;
 
@@ -197,7 +205,6 @@ class BrnRichGridInfo {
   /// clickCallback 可点击文案点击的回调
   /// isArrow 是否最右侧存在箭头
   static BrnRichGridInfo valueLastClickInfo(
-    BuildContext context,
     String keyTitle,
     String valueTitle, {
     Function(String key)? keyQuestionCallback,
@@ -239,7 +246,7 @@ class BrnRichGridInfo {
           }
         },
         child: Padding(
-          padding: const EdgeInsets.only(left: 4),
+          padding: EdgeInsets.only(left: 4),
           child: Container(
             constraints: BoxConstraints(maxWidth: 56),
             child: Text(clickTitle,
@@ -256,7 +263,7 @@ class BrnRichGridInfo {
     bool isShowValueQuestion = valueQuestionCallback != null;
     bool isShowValueClick = clickTitle.isNotEmpty;
 
-    MediaQueryData mediaQuery = MediaQueryData.fromView(View.of(context));
+    MediaQueryData mediaQuery = MediaQueryData.fromWindow(ui.window);
     double screen = mediaQuery.size.width;
 
     Widget key = Container(
@@ -276,7 +283,12 @@ class BrnRichGridInfo {
               style: _getKeyStyle(themeData: themeData),
             ),
           ),
-          isShowKeyQuestion ? _getQuestionImage(true) : const SizedBox.shrink(),
+          isShowKeyQuestion
+              ? _getQuestionImage(true)
+              : Container(
+                  height: 0,
+                  width: 0,
+                ),
           Text(
             '：',
             style: _getKeyStyle(themeData: themeData),
@@ -301,10 +313,16 @@ class BrnRichGridInfo {
           ),
           isShowValueClick
               ? _getClickValue(themeData: themeData)
-              : const SizedBox.shrink(),
+              : Container(
+                  height: 0,
+                  width: 0,
+                ),
           isShowValueQuestion
               ? _getQuestionImage(false)
-              : const SizedBox.shrink(),
+              : Container(
+                  height: 0,
+                  width: 0,
+                ),
         ],
       ),
     );

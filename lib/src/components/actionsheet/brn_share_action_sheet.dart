@@ -1,6 +1,5 @@
 import 'package:bruno/src/components/line/brn_line.dart';
 import 'package:bruno/src/constants/brn_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +35,6 @@ class BrnShareItem extends Object {
   });
 }
 
-/// 分享弹窗
 // ignore: must_be_immutable
 class BrnShareActionSheet extends StatelessWidget {
   /// 第一行渠道列表
@@ -89,7 +87,6 @@ class BrnShareActionSheet extends StatelessWidget {
         child: SafeArea(child: _configActionWidgets(context)));
   }
 
-  /// 显示弹窗
   show(BuildContext context) {
     showModalBottomSheet(
         context: context,
@@ -122,7 +119,7 @@ class BrnShareActionSheet extends StatelessWidget {
     // 判断是否为自定义标题
     title = (channel.shareType == BrnShareItemConstants.shareCustom)
         ? (channel.customTitle ?? "")
-        : BrnIntl.of(context).localizedResource.shareChannels[channel.shareType];
+        : BrnShareItemConstants.shareItemTitleList[channel.shareType];
     // 判断是否为自定义，如果不是自定义图标，则判断是否可点击（决定是否使用置灰图标）
     image = (channel.shareType == BrnShareItemConstants.shareCustom)
         ? channel.customImage
@@ -211,7 +208,7 @@ class BrnShareActionSheet extends StatelessWidget {
       alignment: Alignment.centerLeft,
       padding: EdgeInsets.only(top: 16, left: 20),
       child: Text(
-        mainTitle ?? BrnIntl.of(context).localizedResource.shareTo,
+        mainTitle ?? "分享至",
         maxLines: 1,
         textAlign: TextAlign.left,
         style: TextStyle(
@@ -271,7 +268,7 @@ class BrnShareActionSheet extends StatelessWidget {
           padding: EdgeInsets.only(left: 61, right: 61, top: 12, bottom: 12),
           child: Center(
             child: Text(
-              cancelTitle ?? BrnIntl.of(context).localizedResource.cancel,
+              cancelTitle ?? "取消",
               style: TextStyle(
                   fontSize: 16, fontWeight: FontWeight.w600, color: textColor),
             ),

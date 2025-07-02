@@ -1,5 +1,4 @@
 import 'package:bruno/src/components/picker/brn_tags_picker_config.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:flutter/material.dart';
 
@@ -59,7 +58,6 @@ class BrnMultiSelectTags extends StatefulWidget {
   /// 最小宽度，默认 75
   final double minWidth;
 
-  /// create BrnMultiSelectTags
   BrnMultiSelectTags({
     Key? key,
     required this.tagPickerBean,
@@ -100,7 +98,7 @@ class _BrnMultiSelectTagsState extends State<BrnMultiSelectTags> {
           Container(
             height: 200,
             child: Center(
-              child: Text(BrnIntl.of(context).localizedResource.noTagDataTip),
+              child: Text('未配置tags数据'),
             ),
           );
     }

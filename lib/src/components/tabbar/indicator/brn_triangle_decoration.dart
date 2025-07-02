@@ -126,7 +126,7 @@ class BrnTriangleIndicator extends Decoration {
 
   @override
   int get hashCode {
-    return Object.hash(
+    return hashValues(
       color,
       lineWidth,
       triWidth,

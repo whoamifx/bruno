@@ -70,7 +70,7 @@ class BrnCommonCardTitle extends StatelessWidget {
   /// 标题下方文字 默认是深色的222222
   final Color? detailColor;
 
-  /// 内容的padding 默认上16下12 左右0
+  /// 内容的padding 默认上下16 左右0
   final EdgeInsetsGeometry? padding;
 
   /// 标题最大行数
@@ -80,11 +80,9 @@ class BrnCommonCardTitle extends StatelessWidget {
   /// 注意，由于 subTitleWidget 与 title 是流式布局，所以 subTitleWidget 会折叠
   final TextOverflow titleOverflow;
 
-  /// the theme config of BrnCommonCardTitle
   final BrnCardTitleConfig? themeData;
 
-  /// create BrnCommonCardTitle
-  const BrnCommonCardTitle(
+  BrnCommonCardTitle(
       {Key? key,
       required this.title,
       this.accessoryText,
@@ -97,23 +95,22 @@ class BrnCommonCardTitle extends StatelessWidget {
       this.padding,
       this.titleMaxLines,
       this.titleOverflow = TextOverflow.clip,
-      this.themeData})
+        this.themeData})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     BrnCardTitleConfig defaultConfig = themeData ?? BrnCardTitleConfig();
 
-    BrnCardTitleConfig cardTitleConfig = BrnCardTitleConfig(
+    defaultConfig = defaultConfig.merge(BrnCardTitleConfig(
         alignment: alignment,
         cardTitlePadding: padding as EdgeInsets?,
-        detailTextStyle: BrnTextStyle(color: detailColor));
+        detailTextStyle: BrnTextStyle(color: detailColor)));
 
     defaultConfig = BrnThemeConfigurator.instance
         .getConfig(configId: defaultConfig.configId)
         .cardTitleConfig
-        .merge(themeData)
-        .merge(cardTitleConfig);
+        .merge(defaultConfig);
 
     Widget titleContainer = Container(
       color: defaultConfig.cardBackgroundColor,
@@ -130,7 +127,7 @@ class BrnCommonCardTitle extends StatelessWidget {
     List<Widget> children = [];
     children.add(Expanded(child: _titleWidget(context, defaultConfig)));
 
-    Widget accessory = const SizedBox.shrink();
+    Widget accessory = SizedBox.shrink();
     // 左侧的文本的行高是25，那么右侧的widget最大为25
     if (this.accessoryWidget != null) {
       accessory = Container(
@@ -179,7 +176,7 @@ class BrnCommonCardTitle extends StatelessWidget {
 
   ///标题widget
   Widget _titleWidget(BuildContext context, BrnCardTitleConfig defaultConfig) {
-    Widget subWidget = const SizedBox.shrink();
+    Widget subWidget = SizedBox.shrink();
 
     if (subTitleWidget != null) {
       subWidget = _subTitleWidgetFromWidget();

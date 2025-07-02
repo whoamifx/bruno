@@ -13,8 +13,8 @@ import 'package:flutter/material.dart';
 
 /// 点击确定时的回调
 /// [checkedItems] 被选中的 item 集合
-typedef BrnMultiSelectListPickerSubmit<T> = void Function(
-    List<T> checkedItems);
+typedef BrnMultiSelectListPickerSubmit = void Function(
+    List<BrnMultiSelectBottomPickerItem> checkedItems);
 
 /// item 被点击时的回调
 /// [index] item 的索引
@@ -23,18 +23,18 @@ typedef BrnMultiSelectListPickerItemClick = void Function(
 
 /// 多选列表 Picker
 
-class BrnMultiSelectListPicker<T extends BrnMultiSelectBottomPickerItem> extends StatefulWidget {
+class BrnMultiSelectListPicker extends StatefulWidget {
   final String? title;
-  final List<T> items;
-  final BrnMultiSelectListPickerSubmit<T>? onSubmit;
+  final List<BrnMultiSelectBottomPickerItem> items;
+  final BrnMultiSelectListPickerSubmit? onSubmit;
   final VoidCallback? onCancel;
   final BrnMultiSelectListPickerItemClick? onItemClick;
   final BrnPickerTitleConfig pickerTitleConfig;
 
-  static void show<T extends BrnMultiSelectBottomPickerItem>(
+  static void show(
     BuildContext context, {
-    required List<T> items,
-    BrnMultiSelectListPickerSubmit<T>? onSubmit,
+    required List<BrnMultiSelectBottomPickerItem> items,
+    BrnMultiSelectListPickerSubmit? onSubmit,
     VoidCallback? onCancel,
     BrnMultiSelectListPickerItemClick? onItemClick,
     BrnPickerTitleConfig pickerTitleConfig = BrnPickerTitleConfig.Default,
@@ -45,7 +45,7 @@ class BrnMultiSelectListPicker<T extends BrnMultiSelectBottomPickerItem> extends
       isDismissible: isDismissible,
       backgroundColor: Colors.transparent,
       builder: (BuildContext dialogContext) {
-        return BrnMultiSelectListPicker<T>(
+        return BrnMultiSelectListPicker(
           items: items,
           onSubmit: onSubmit,
           onCancel: onCancel,
@@ -68,11 +68,11 @@ class BrnMultiSelectListPicker<T extends BrnMultiSelectBottomPickerItem> extends
 
   @override
   State<StatefulWidget> createState() {
-    return MultiSelectDialogWidgetState<T>();
+    return MultiSelectDialogWidgetState();
   }
 }
 
-class MultiSelectDialogWidgetState<T extends BrnMultiSelectBottomPickerItem> extends State<BrnMultiSelectListPicker<T>> {
+class MultiSelectDialogWidgetState extends State<BrnMultiSelectListPicker> {
   @override
   Widget build(BuildContext context) {
     return BrnPickerClipRRect(
@@ -99,7 +99,7 @@ class MultiSelectDialogWidgetState<T extends BrnMultiSelectBottomPickerItem> ext
                   child: BrnPickerTitle(
                     pickerTitleConfig: widget.pickerTitleConfig,
                     onConfirm: () {
-                      List<T> selectedItems = [];
+                      List<BrnMultiSelectBottomPickerItem> selectedItems = [];
                       if (widget.onSubmit != null) {
                         for (int i = 0; i < widget.items.length; i++) {
                           if (widget.items[i].isChecked) {
@@ -180,7 +180,7 @@ class MultiSelectDialogWidgetState<T extends BrnMultiSelectBottomPickerItem> ext
                 ? Padding(
                     padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: BrnLine())
-                : const SizedBox.shrink()
+                : Container()
           ],
         ));
   }

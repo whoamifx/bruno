@@ -8,7 +8,9 @@ group:
 # BrnAbnormalStateWidget
 
 ## 一、效果总览
-<img src="./img/empty_state_1.png" style="zoom:50%;" /><img src="./img/empty_state_2.png" style="zoom:50%;" /><img src="./img/empty_state_3.png" style="zoom:50%;" /><img src="./img/empty_state_4.png" style="zoom:50%;" /><img src="./img/empty_state_5.png" style="zoom:50%;" />
+
+![](./img/empty_state_intro.png)
+
 
 ## 二、描述
 
@@ -74,15 +76,15 @@ BrnAbnormalStateWidget({
 ```dart
 BrnAbnormalStateWidget(
     img: Image.asset(
-      'assets/image/content_failed.png',
+      'assets/image/empty_state.png',
       scale: 3.0,
     ),
     isCenterVertical: true,
-    title: "获取数据失败，请重试",
-    operateTexts: <String>["请点击页面重试"],
-    operateAreaType: OperateAreaType.textButton,
+    title: BrnStrings.getDateFailed,
+    operateTexts: <String>[BrnStrings.clickPageRetry],
+    operateAreaType: OperateAreaType.TextButton,
     action: (index) {
-      BrnToast.show("获取数据失败，请重试", context);
+      BrnToast.show(BrnStrings.getDateFailed, context);
     },
   )
 ```
@@ -93,12 +95,13 @@ BrnAbnormalStateWidget(
 
 ```dart
 BrnAbnormalStateWidget(
-      img: Image.asset(
-        'assets/image/network_error.png',
-        scale: 3.0,
-      ),
-      title: '网络数据异常',
-);
+  isCenterVertical: true,
+  img: Image.asset(
+    'assets/image/empty_state.png',
+    scale: 3.0,
+  ),
+  title: BrnStrings.noData,
+)
 ```
 
 ### 效果 3：大模块空态
@@ -107,12 +110,12 @@ BrnAbnormalStateWidget(
 
 ```dart
 BrnAbnormalStateWidget(
-      img: Image.asset(
-        'assets/image/no_data.png',
-        scale: 3.0,
-      ),
-      content: '您的门店暂无用户',
-);
+  img: Image.asset(
+    'assets/image/empty_state.png',
+    scale: 3.0,
+  ),
+  content: '您的门店暂无用户',
+)
 ```
 
 ### 效果 4:单按钮效果
@@ -121,18 +124,18 @@ BrnAbnormalStateWidget(
 
 ```dart
 BrnAbnormalStateWidget(
-      img: Image.asset(
-        'assets/image/no_data.png',
-        scale: 3.0,
-      ),
-      title: "这是副标题内容这是副标题内容这是副标",
-      content: '您的门店暂无用户',
-      operateAreaType: OperateAreaType.singleButton,
-      operateTexts: ["切换账号"],
-      action: (_) {
-        BrnToast.show("第$_个按钮被点击了", context);
-      },
-);
+  img: Image.asset(
+    'assets/image/empty_state.png',
+    scale: 3.0,
+  ),
+  title: "这是副标题内容这是副标题内容这是副标",
+  content: '您的门店暂无用户',
+  operateAreaType: OperateAreaType.SingleButton,
+  operateTexts: ["切换账号"],
+  action: (_) {
+    BrnToast.show("第$_个按钮被点击了", context);
+  },
+)
 ```
 
 ### 效果 5：双按钮效果
@@ -141,16 +144,16 @@ BrnAbnormalStateWidget(
 
 ```dart
 BrnAbnormalStateWidget(
-      img: Image.asset(
-        'assets/image/no_data.png',
-        scale: 3.0,
-      ),
-      title: "暂无",
-      content: '您还没有在维护的信息哦',
-      operateAreaType: OperateAreaType.doubleButton,
-      operateTexts: ['去添加', '去修改'],
-      action: (_) {
-        BrnToast.show("第$_个按钮被点击了", context);
-      },
-);
+  img: Image.asset(
+    'assets/image/empty_state.png',
+    scale: 3.0,
+  ),
+  title: "暂无",
+  content: '您还没有在维护的信息哦',
+  operateAreaType: OperateAreaType.DoubleButton,
+  operateTexts: ['去添加', '去修改'],
+  action: (_) {
+    BrnToast.show("第$_个按钮被点击了", context);
+  },
+)
 ```

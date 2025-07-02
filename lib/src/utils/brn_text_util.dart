@@ -1,7 +1,6 @@
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/widgets.dart';
 
-/// 文本工具类
 class BrnTextUtil {
   const BrnTextUtil._();
 

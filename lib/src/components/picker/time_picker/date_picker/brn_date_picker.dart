@@ -38,6 +38,7 @@ class BrnDatePicker {
   /// onConfirm: [DateValueCallback] pressed title confirm widget event
   static void showDatePicker(
     BuildContext context, {
+
     /// If rootNavigator is set to true, the state from the furthest instance of this class is given instead.
     /// Useful for pushing contents above all subsequent instances of [Navigator].
     bool rootNavigator = false,
@@ -58,7 +59,8 @@ class BrnDatePicker {
     String? dateFormat,
 
     /// 分钟间切换的差值
-    int minuteDivider = 1,
+    int minuteDivider: 1,
+    DateTimePickerLocale locale = datetimePickerLocaleDefault,
 
     /// 时间选择组件显示的时间类型
     BrnDateTimePickerMode pickerMode = BrnDateTimePickerMode.date,
@@ -69,13 +71,13 @@ class BrnDatePicker {
     /// 点击【取消】回调给调用方的回调事件
     DateVoidCallback? onCancel,
 
-    /// 弹框点击外围消失的回调事件
+    /// 点击【完成】回调给调用方的数据
     DateVoidCallback? onClose,
 
     /// 时间滚动选择时候的回调事件
     DateValueCallback? onChange,
 
-    /// 点击【完成】回调给调用方的数据
+    /// 弹框点击外围消失的回调事件
     DateValueCallback? onConfirm,
     BrnPickerConfig? themeData,
   }) {
@@ -104,6 +106,7 @@ class BrnDatePicker {
             initialDateTime: initialDateTime,
             dateFormat: dateFormat,
             minuteDivider: minuteDivider,
+            locale: locale,
             pickerMode: pickerMode,
             pickerTitleConfig: pickerTitleConfig,
             onCancel: onCancel,
@@ -126,6 +129,7 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
     this.initialDateTime,
     this.minuteDivider,
     this.dateFormat,
+    this.locale = datetimePickerLocaleDefault,
     this.pickerMode = BrnDateTimePickerMode.date,
     this.pickerTitleConfig = BrnPickerTitleConfig.Default,
     this.onCancel,
@@ -146,6 +150,7 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
 
   final DateTime? minDateTime, maxDateTime, initialDateTime;
   final String? dateFormat;
+  final DateTimePickerLocale locale;
   final BrnDateTimePickerMode pickerMode;
   final BrnPickerTitleConfig pickerTitleConfig;
   final VoidCallback? onCancel;
@@ -217,6 +222,7 @@ class _DatePickerComponent extends StatelessWidget {
           maxDateTime: route.maxDateTime,
           initialDateTime: route.initialDateTime,
           dateFormat: route.dateFormat,
+          locale: route.locale,
           pickerTitleConfig: route.pickerTitleConfig,
           onCancel: route.onCancel,
           onChange: route.onChange,
@@ -230,6 +236,7 @@ class _DatePickerComponent extends StatelessWidget {
           maxDateTime: route.maxDateTime,
           initDateTime: route.initialDateTime,
           dateFormat: route.dateFormat,
+          locale: route.locale,
           minuteDivider: route.minuteDivider,
           pickerTitleConfig: route.pickerTitleConfig,
           onCancel: route.onCancel,
@@ -245,6 +252,7 @@ class _DatePickerComponent extends StatelessWidget {
           initDateTime: route.initialDateTime,
           dateFormat: route.dateFormat,
           minuteDivider: route.minuteDivider,
+          locale: route.locale,
           pickerTitleConfig: route.pickerTitleConfig,
           onCancel: route.onCancel,
           onChange: route.onChange,

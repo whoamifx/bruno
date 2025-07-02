@@ -1,6 +1,4 @@
-import 'package:bruno/src/components/radio/brn_radio_core.dart';
-import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/utils/brn_tools.dart';
+import 'package:bruno/bruno.dart';
 import 'package:flutter/material.dart';
 
 ///多选按钮
@@ -76,15 +74,6 @@ class BrnCheckboxState extends State<BrnCheckbox> {
   void initState() {
     super.initState();
     _isSelected = widget.isSelected;
-  }
-
-  @override
-  void didUpdateWidget(covariant BrnCheckbox oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.isSelected != widget.isSelected) {
-      _isSelected = widget.isSelected;
-    }
   }
 
   @override

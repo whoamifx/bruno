@@ -3,8 +3,7 @@
 import 'dart:collection' show Queue;
 import 'dart:math' as math;
 
-import 'package:bruno/src/components/tabbar/bottom/brn_bottom_tab_bar_item.dart';
-import 'package:bruno/src/theme/brn_theme.dart';
+import 'package:bruno/bruno.dart';
 import 'package:flutter/material.dart';
 
 /// 定义一些UI常量,根据UI稿进行填写
@@ -222,7 +221,7 @@ class _BottomTabBarState extends State<BrnBottomTabBar> with TickerProviderState
             break;
         }
         final ColorTween colorTween = ColorTween(
-          begin: textTheme.bodySmall!.color,
+          begin: textTheme.caption!.color,
           end: widget.fixedColor ?? themeColor,
         );
         for (int i = 0; i < widget.items.length; i += 1) {
@@ -479,7 +478,7 @@ class _BottomNavigationTile extends StatelessWidget {
           style: TextStyle(
             fontSize: _kActiveFontSize,
             color: colorTween?.evaluate(animation),
-          ).merge(selected ? item.selectedTextStyle : item.unSelectedTextStyle),
+          ),
 
           /// 使用矩阵变化控制字体大小
           child: Transform(

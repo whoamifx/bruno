@@ -1,6 +1,10 @@
+
+
+import 'package:bruno/src/components/form/base/brn_form_item_type.dart';
 import 'package:bruno/src/components/form/utils/brn_form_util.dart';
-import 'package:bruno/src/constants/brn_fonts_constants.dart';
 import 'package:bruno/src/theme/brn_theme.dart';
+import 'package:bruno/src/theme/brn_theme_configurator.dart';
+import 'package:bruno/src/constants/brn_fonts_constants.dart';
 import 'package:flutter/material.dart';
 
 /// 添加组类型录入项所使用的Widget
@@ -8,6 +12,9 @@ import 'package:flutter/material.dart';
 class BrnAddLabel extends StatefulWidget {
   /// 录入项的唯一标识，主要用于录入类型页面框架中
   final String? label;
+
+  /// 录入项类型，主要用于录入类型页面框架中
+  final String type = BrnInputItemType.labelAdd;
 
   /// 标题文案
   final String title;

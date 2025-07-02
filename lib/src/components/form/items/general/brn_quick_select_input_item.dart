@@ -1,6 +1,7 @@
+
+
 import 'package:bruno/src/components/form/base/brn_form_item_type.dart';
 import 'package:bruno/src/components/form/utils/brn_form_util.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/theme/configs/brn_form_config.dart';
 import 'package:bruno/src/constants/brn_fonts_constants.dart';
@@ -18,6 +19,9 @@ import 'package:flutter/material.dart';
 class BrnTextQuickSelectFormItem extends StatefulWidget {
   /// 录入项的唯一标识，主要用于录入类型页面框架中
   final String? label;
+
+  /// 录入项类型，主要用于录入类型页面框架中
+  String type = BrnInputItemType.textQuickSelectInputType;
 
   /// 录入项标题
   final String title;
@@ -56,11 +60,10 @@ class BrnTextQuickSelectFormItem extends StatefulWidget {
   /// 点击录入区回调
   final VoidCallback? onTap;
 
-  /// 按钮点击
   final ValueChanged<int>? onBtnSelectChanged;
 
   /// 录入项 hint 提示
-  final String? hint;
+  final String hint;
 
   /// 录入项 值
   String? value;
@@ -88,23 +91,23 @@ class BrnTextQuickSelectFormItem extends StatefulWidget {
   BrnTextQuickSelectFormItem(
       {Key? key,
       this.label,
-      this.title = "",
+      this.title: "",
       this.subTitle,
       this.tipLabel,
-      this.prefixIconType = BrnPrefixIconType.normal,
-      this.error = "",
-      this.isEdit = true,
-      this.isRequire = false,
+      this.prefixIconType: BrnPrefixIconType.normal,
+      this.error: "",
+      this.isEdit: true,
+      this.isRequire: false,
       this.onAddTap,
       this.onRemoveTap,
       this.onTip,
-      this.hint,
+      this.hint: "请选择",
       this.value,
       this.btnsTxt,
       this.selectBtnList,
       this.enableBtnList,
       this.btns,
-      this.isBtnsScroll = false,
+      this.isBtnsScroll: false,
       this.onTap,
       this.onBtnSelectChanged,
       this.backgroundColor,
@@ -115,9 +118,8 @@ class BrnTextQuickSelectFormItem extends StatefulWidget {
         .getConfig(configId: themeData!.configId)
         .formItemConfig
         .merge(themeData);
-    this.themeData = this
-        .themeData!
-        .merge(BrnFormItemConfig(backgroundColor: backgroundColor));
+    this.themeData = this.themeData!.merge(
+        BrnFormItemConfig(backgroundColor: backgroundColor));
   }
 
   @override
@@ -228,7 +230,7 @@ class BrnTextQuickSelectFormItemState
       );
     } else {
       return Text(
-        widget.hint ?? BrnIntl.of(context).localizedResource.pleaseChoose,
+        widget.hint,
         textAlign: TextAlign.end,
         style: BrnFormUtil.getHintTextStyle(widget.themeData!),
       );
@@ -308,7 +310,7 @@ class QuickButtonsState extends State<QuickButtonsWidget> {
 
   Widget getQuickButtons() {
     if (!widget.isEdit) {
-      return const SizedBox.shrink();
+      return Container();
     }
 
     if (widget.btns != null) {

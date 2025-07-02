@@ -1,3 +1,4 @@
+import 'package:bruno/src/components/form/base/brn_form_item_type.dart';
 import 'package:bruno/src/components/form/items/group/element_expand_widget.dart';
 import 'package:bruno/src/components/form/utils/brn_form_util.dart';
 import 'package:bruno/src/components/line/brn_line.dart';
@@ -15,11 +16,21 @@ class BrnExpandFormGroup extends StatefulWidget {
   /// 录入项的唯一标识，主要用于录入类型页面框架中
   final String? label;
 
+  /// 录入项类型，主要用于录入类型页面框架中
+  final String type = BrnInputItemType.normalGroupType;
+
   /// 录入项标题
   final String title;
 
   /// 录入项子标题
   final String? subTitle;
+
+  /// 录入项提示（问号图标&文案） 用户点击时触发onTip回调。
+  /// 1. 若赋值为 空字符串（""）时仅展示"问号"图标，
+  /// 2. 若赋值为非空字符串时 展示"问号图标&文案"，
+  /// 3. 若不赋值或赋值为null时 不显示提示项
+  /// 默认值为 3
+  final String? tipLabel;
 
   /// 录入项错误提示
   final String error;
@@ -55,6 +66,7 @@ class BrnExpandFormGroup extends StatefulWidget {
     this.label,
     this.title = "",
     this.subTitle,
+    this.tipLabel,
     this.error = "",
     this.isEdit = true,
     this.isRequire = false,

@@ -6,7 +6,6 @@ import 'package:bruno/src/components/selection/brn_selection_util.dart';
 import 'package:bruno/src/components/selection/widget/brn_selection_menu_widget.dart';
 import 'package:bruno/src/components/selection/widget/brn_selection_single_list_widget.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/configs/brn_selection_config.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
@@ -14,26 +13,13 @@ import 'package:flutter/material.dart';
 typedef SingleListItemSelect = void Function(
     int listIndex, int index, BrnSelectionEntity entity);
 
-/// 多列数据选择子组件，内部包含多个 BrnSelectionSingleListWidget
 // ignore: must_be_immutable
 class BrnListSelectionGroupWidget extends StatefulWidget {
-
-  /// 筛选数据
   final BrnSelectionEntity entity;
-
-  /// 最大高度
   final double maxContentHeight;
-
-  /// 是否显示选中数量
   final bool showSelectedCount;
-
-  /// 背景点击回调
   final VoidCallback? bgClickFunction;
-
-  /// 点击确认按钮回调
   final BrnOnRangeSelectionConfirm? onSelectionConfirm;
-
-  /// 主题配置
   BrnSelectionConfig themeData;
 
   BrnListSelectionGroupWidget({
@@ -240,7 +226,10 @@ class _BrnSelectionGroupViewState extends State<BrnListSelectionGroupWidget> {
                   ),
                 ),
               )
-            : const SizedBox.shrink()
+            : Container(
+                height: 0,
+                width: 0,
+              )
       ],
     );
   }
@@ -257,7 +246,7 @@ class _BrnSelectionGroupViewState extends State<BrnListSelectionGroupWidget> {
           padding: EdgeInsets.fromLTRB(8, 11, 20, 11),
           child: Row(
             children: <Widget>[
-              GestureDetector(
+              InkWell(
                 child: Container(
                   padding: EdgeInsets.only(left: 12, right: 20),
                   child: Column(
@@ -269,7 +258,7 @@ class _BrnSelectionGroupViewState extends State<BrnListSelectionGroupWidget> {
                             BrnAsset.iconSelectionReset),
                       ),
                       Text(
-                        BrnIntl.of(context).localizedResource.reset,
+                        "重置",
                         style:
                             widget.themeData.resetTextStyle.generateTextStyle(),
                       )
@@ -280,7 +269,7 @@ class _BrnSelectionGroupViewState extends State<BrnListSelectionGroupWidget> {
               ),
               Expanded(
                 child: BrnBigMainButton(
-                  title: BrnIntl.of(context).localizedResource.ok,
+                  title: '确定',
                   onTap: () {
                     _confirmButtonClickEvent();
                   },

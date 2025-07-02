@@ -1,4 +1,3 @@
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -109,7 +108,7 @@ class _BrnExpandableTextState extends State<BrnExpandableText> {
     Color btnColor = widget.color ?? Colors.white;
 
     Text tx = Text(
-      BrnIntl.of(context).localizedResource.more,
+      '更多',
       style: TextStyle(
           color: BrnThemeConfigurator.instance
               .getConfig()
@@ -164,7 +163,7 @@ class _BrnExpandableTextState extends State<BrnExpandableText> {
 
   InlineSpan _foldButtonSpan(context) {
     return TextSpan(
-        text: ' '+ BrnIntl.of(context).localizedResource.collapse,
+        text: ' 收起',
         style: TextStyle(
           color: BrnThemeConfigurator.instance
               .getConfig()

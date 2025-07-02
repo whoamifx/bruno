@@ -2,41 +2,30 @@ import 'package:bruno/src/components/picker/time_picker/brn_date_time_formatter.
 import 'package:bruno/src/components/selection/bean/brn_selection_common_entity.dart';
 import 'package:bruno/src/components/selection/brn_selection_util.dart';
 import 'package:bruno/src/components/toast/brn_toast.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/configs/brn_selection_config.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
+import 'package:bruno/src/utils/i18n/brn_date_picker_i18n.dart';
 import 'package:flutter/material.dart';
 
 /// /// /// /// /// /// /// /// /// /
 /// 描述: 多选 tag 组件
 /// /// /// /// /// /// /// /// /// /
 class BrnSelectionRangeTagWidget extends StatefulWidget {
-  /// tag 显示的文本
+  //tag 显示的文本
   @required
   final List<BrnSelectionEntity> tagFilterList;
 
-  /// 初始选中的 Index 列表
+  //初始选中的 Index 列表
   final List<bool>? initSelectStatus;
 
-  /// 选择tag的回调
+  //选择tag的回调
   final void Function(int, bool)? onSelect;
-
-  /// tag 之间的间距
   final double spacing;
-
-  /// tag 之间的垂直间距
   final double verticalSpacing;
-
-  /// tag 的宽度
   final int tagWidth;
-
-  /// tag 的高度
   final double tagHeight;
-
-  /// 初始选择的焦点位置
   final int initFocusedIndex;
 
-  /// 主题配置
   final BrnSelectionConfig themeData;
 
   BrnSelectionRangeTagWidget(
@@ -81,7 +70,7 @@ class _BrnSelectionRangeTagWidgetState
             if (BrnSelectionFilterType.checkbox == selectedEntity.filterType &&
                 !selectedEntity.isSelected) {
               if (!BrnSelectionUtil.checkMaxSelectionCount(selectedEntity)) {
-                BrnToast.show(BrnIntl.of(context).localizedResource.filterConditionCountLimited, context);
+                BrnToast.show("您选择的筛选条件数量已达上限", context);
                 return;
               }
             }
@@ -108,7 +97,7 @@ class _BrnSelectionRangeTagWidgetState
             widget.tagFilterList[nameIndex].value);
         if (dateTime != null) {
           text = DateTimeFormatter.formatDate(
-              dateTime, BrnIntl.of(context).localizedResource.dateFormatYYYYMMDD);
+              dateTime, 'yyyy年MM月dd日', DateTimePickerLocale.zh_cn);
         }
       } else {
         text = widget.tagFilterList[nameIndex].value ?? '';

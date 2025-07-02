@@ -2,7 +2,6 @@
 
 import 'package:bruno/src/components/radio/brn_checkbox.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +48,6 @@ class BrnMultipleBottomButton extends StatefulWidget {
   /// 暴露给外界设置多选状态的控制器
   final BrnMultipleBottomController? bottomController;
 
-  /// create BrnMultipleBottomButton
   const BrnMultipleBottomButton(
       {Key? key,
       this.mainButton,
@@ -132,7 +130,7 @@ class _BrnMultipleBottomButtonState extends State<BrnMultipleBottomButton> {
                 Container(
                   padding: EdgeInsets.only(left: 4, right: 8),
                   child: Text(
-                    BrnIntl.of(context).localizedResource.selectAll,
+                    '全选',
                     style: TextStyle(color: Color(0XFF222222), fontSize: 16),
                   ),
                 ),
@@ -176,7 +174,7 @@ class _BrnMultipleBottomButtonState extends State<BrnMultipleBottomButton> {
         child: Row(
           children: <Widget>[
             Text(
-              BrnIntl.of(context).localizedResource.selected,
+              '已选',
               style: TextStyle(color: Color(0XFF222222), fontSize: 16),
             ),
             ValueListenableBuilder<MultiSelectState>(
@@ -355,7 +353,6 @@ class BrnMultipleBottomController {
     valueNotifier = ValueNotifier(initMultiSelectState ?? MultiSelectState());
   }
 
-  ///
   final MultiSelectState? initMultiSelectState;
 
   late ValueNotifier<MultiSelectState> valueNotifier;

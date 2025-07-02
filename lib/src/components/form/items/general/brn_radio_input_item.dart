@@ -1,3 +1,5 @@
+
+
 import 'dart:math';
 
 import 'package:bruno/src/components/form/base/brn_form_item_type.dart';
@@ -14,10 +16,14 @@ import 'package:flutter/material.dart';
 /// 包括"标题"、"副标题"、"错误信息提示"、"必填项提示"、"添加/删除按钮"、"消息提示"、
 /// "单选项"等元素
 ///
+
 // ignore: must_be_immutable
 class BrnRadioInputFormItem extends StatefulWidget {
   /// 录入项的唯一标识，主要用于录入类型页面框架中
   final String? label;
+
+  /// 录入项类型，主要用于录入类型页面框架中
+  final String type = BrnInputItemType.radioInputType;
 
   /// 录入项标题
   final String title;
@@ -83,13 +89,13 @@ class BrnRadioInputFormItem extends StatefulWidget {
   BrnRadioInputFormItem({
     Key? key,
     this.label,
-    this.title = "",
+    this.title: "",
     this.subTitle,
     this.tipLabel,
-    this.prefixIconType = BrnPrefixIconType.normal,
-    this.error = "",
-    this.isEdit = true,
-    this.isRequire = false,
+    this.prefixIconType: BrnPrefixIconType.normal,
+    this.error: "",
+    this.isEdit: true,
+    this.isRequire: false,
     this.onAddTap,
     this.onRemoveTap,
     this.onTip,
@@ -106,22 +112,21 @@ class BrnRadioInputFormItem extends StatefulWidget {
         .getConfig(configId: this.themeData!.configId)
         .formItemConfig
         .merge(this.themeData);
-    this.themeData = this
-        .themeData!
-        .merge(BrnFormItemConfig(backgroundColor: backgroundColor));
+    this.themeData = this.themeData!.merge(
+        BrnFormItemConfig(backgroundColor: backgroundColor));
     this._isAutoLayout = false;
   }
 
   BrnRadioInputFormItem.autoLayout({
     Key? key,
     this.label,
-    this.title = "",
+    this.title: "",
     this.subTitle,
     this.tipLabel,
-    this.prefixIconType = BrnPrefixIconType.normal,
-    this.error = "",
-    this.isEdit = true,
-    this.isRequire = false,
+    this.prefixIconType: BrnPrefixIconType.normal,
+    this.error: "",
+    this.isEdit: true,
+    this.isRequire: false,
     this.onAddTap,
     this.onRemoveTap,
     this.onTip,
@@ -140,9 +145,8 @@ class BrnRadioInputFormItem extends StatefulWidget {
         .getConfig(configId: this.themeData!.configId)
         .formItemConfig
         .merge(this.themeData);
-    this.themeData = this
-        .themeData!
-        .merge(BrnFormItemConfig(backgroundColor: backgroundColor));
+    this.themeData = this.themeData!.merge(
+        BrnFormItemConfig(backgroundColor: backgroundColor));
   }
 
   @override

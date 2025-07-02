@@ -1,5 +1,4 @@
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
@@ -17,15 +16,17 @@ enum DisplayMode { week, month }
 /// 时间选择模式，单个时间，时间范围
 enum SelectMode { single, range }
 
+const List<String> _defaultWeekNames = ['日', '一', '二', '三', '四', '五', '六'];
+
 /// 日历组件 包括月视图，周视图、日期单选、日期范围选等功能。
 /// 1、点击不同月份日期，自动切换到最新选中日期所在月份。
 /// 2、日历组件支持时间范围展示，仅展示范围内的日历视图，范围外日期置灰不可点击。日期范围边界后不可再翻页。
 class BrnCalendarView extends StatefulWidget {
-  BrnCalendarView(
+  const BrnCalendarView(
       {Key? key,
       this.selectMode = SelectMode.single,
       this.displayMode = DisplayMode.month,
-      this.weekNames,
+      this.weekNames = _defaultWeekNames,
       this.showControllerBar = true,
       this.initStartSelectedDate,
       this.initEndSelectedDate,
@@ -34,15 +35,15 @@ class BrnCalendarView extends StatefulWidget {
       this.rangeDateChange,
       this.minDate,
       this.maxDate})
-      : assert(selectMode == SelectMode.single && dateChange != null ||
+      : assert(weekNames.length == 7),
+        assert(selectMode == SelectMode.single && dateChange != null ||
             selectMode == SelectMode.range && rangeDateChange != null),
         super(key: key);
 
-  /// 选择时间-单选构造 仅能选择一个日期
-  BrnCalendarView.single(
+  const BrnCalendarView.single(
       {Key? key,
       this.displayMode = DisplayMode.month,
-      this.weekNames,
+      this.weekNames = _defaultWeekNames,
       this.showControllerBar = true,
       this.initStartSelectedDate,
       this.initEndSelectedDate,
@@ -52,13 +53,13 @@ class BrnCalendarView extends StatefulWidget {
       this.maxDate})
       : this.selectMode = SelectMode.single,
         this.rangeDateChange = null,
+        assert(weekNames.length == 7),
         super(key: key);
 
-  /// 选择时间-时间范围选择
-  BrnCalendarView.range(
+  const BrnCalendarView.range(
       {Key? key,
       this.displayMode = DisplayMode.month,
-      this.weekNames,
+      this.weekNames = _defaultWeekNames,
       this.showControllerBar = true,
       this.initStartSelectedDate,
       this.initEndSelectedDate,
@@ -68,6 +69,7 @@ class BrnCalendarView extends StatefulWidget {
       this.maxDate})
       : this.selectMode = SelectMode.range,
         this.dateChange = null,
+        assert(weekNames.length == 7),
         super(key: key);
 
   /// 展示模式， Week, Month
@@ -96,7 +98,7 @@ class BrnCalendarView extends StatefulWidget {
   final bool showControllerBar;
 
   /// 自定义星期的名称
-  final List<String>? weekNames;
+  final List<String> weekNames;
 
   /// 初始展示月份
   ///
@@ -224,7 +226,7 @@ class _CustomCalendarViewState extends State<BrnCalendarView> {
             Expanded(
               child: Center(
                 child: Text(
-                  DateFormat(BrnIntl.of(context).localizedResource.dateFormatYYYYMM).format(_currentDate),
+                  DateFormat('yyyy年MM月').format(_currentDate),
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
@@ -375,7 +377,6 @@ class _CustomCalendarViewState extends State<BrnCalendarView> {
                                         .withOpacity(0.14)
                                     : Colors.transparent)
                                 : Colors.transparent,
-                            // 范围选择两端圆角
                             borderRadius: BorderRadius.horizontal(
                               left: _isStartDateRadius(date)
                                   ? const Radius.circular(24.0)
@@ -404,7 +405,6 @@ class _CustomCalendarViewState extends State<BrnCalendarView> {
                                       .brandPrimary
                                   : Colors.transparent,
                               borderRadius:
-                                  // 选中色圆角
                                   const BorderRadius.all(Radius.circular(32.0)),
                             ),
                           ),
@@ -413,8 +413,11 @@ class _CustomCalendarViewState extends State<BrnCalendarView> {
                     ),
                     Material(
                       color: Colors.transparent,
-                      child: GestureDetector(
-                          behavior: HitTestBehavior.opaque,
+                      child: InkWell(
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(32.0)),
                         onTap: () {
                           final DateTime newMinimumDate = DateTime(
                               _minDate.year, _minDate.month, _minDate.day - 1);
@@ -627,6 +630,6 @@ class _CustomCalendarViewState extends State<BrnCalendarView> {
   }
 
   String _getChinaWeekName(int weekOfDay) {
-    return (widget.weekNames ?? BrnIntl.of(context).localizedResource.weekMinName)[weekOfDay];
+    return widget.weekNames[weekOfDay];
   }
 }

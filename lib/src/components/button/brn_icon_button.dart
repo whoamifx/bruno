@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 /// 为了解决icon和文字组合的问题
 /// 图文的方向 bottom、文字在下 icon在上 top、文字在上 icon在下
 /// Left、文字在左 icon在右 right、文字在右 icon在左
+
 enum Direction {
   /// 文字在左边
   left,
@@ -38,6 +39,9 @@ class BrnIconButton extends StatefulWidget {
   /// 图片高度，默认 24
   final double iconHeight;
 
+  /// 字体大小，默认 11
+  final double fontSize;
+
   ///  文字样式
   final TextStyle? style;
 
@@ -53,7 +57,6 @@ class BrnIconButton extends StatefulWidget {
   /// 图文对齐方式，默认 MainAxisAlignment.center
   final MainAxisAlignment mainAxisAlignment;
 
-  /// create BrnIconButton
   const BrnIconButton({
     Key? key,
     required this.name,
@@ -61,6 +64,7 @@ class BrnIconButton extends StatefulWidget {
     this.onTap,
     this.iconWidth = 24,
     this.iconHeight = 24,
+    this.fontSize = 11,
     this.widgetWidth = 80,
     this.widgetHeight = 80,
     this.direction = Direction.top,
@@ -89,18 +93,14 @@ class _BrnIconButtonState extends State<BrnIconButton> {
             children: <Widget>[
               // 图片
               Container(
-                height: widget.iconHeight,
-                width: widget.iconWidth,
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                    child: widget.iconWidget),
-              ),
+                  height: widget.iconHeight, width: widget.iconWidth, child: widget.iconWidget),
               Padding(
                 padding: EdgeInsets.only(top: widget.padding),
                 child: Text(
                   widget.name,
                   style: widget.style ??
                       TextStyle(
+                        fontSize: 11,
                         color: BrnThemeConfigurator.instance
                             .getConfig()
                             .commonConfig
@@ -130,6 +130,7 @@ class _BrnIconButtonState extends State<BrnIconButton> {
                   widget.name,
                   style: widget.style ??
                       TextStyle(
+                        fontSize: 11,
                         color: BrnThemeConfigurator.instance
                             .getConfig()
                             .commonConfig
@@ -154,6 +155,7 @@ class _BrnIconButtonState extends State<BrnIconButton> {
                   widget.name,
                   style: widget.style ??
                       TextStyle(
+                        fontSize: 11,
                         color: BrnThemeConfigurator.instance
                             .getConfig()
                             .commonConfig
@@ -183,6 +185,7 @@ class _BrnIconButtonState extends State<BrnIconButton> {
                   widget.name,
                   style: widget.style ??
                       TextStyle(
+                        fontSize: 11,
                         color: BrnThemeConfigurator.instance
                             .getConfig()
                             .commonConfig

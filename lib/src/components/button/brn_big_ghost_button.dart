@@ -1,7 +1,6 @@
 
 
 import 'package:bruno/src/components/button/brn_normal_button.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -21,28 +20,25 @@ import 'package:flutter/material.dart';
 ///  * [BrnBigOutlineButton], 大边框按钮
 
 class BrnBigGhostButton extends StatelessWidget {
-  /// 按钮文案，默认'确认'
-  final String? title;
+  ///按钮文案，默认'确认'
+  final String title;
 
-  /// 文案颜色
+  ///文案颜色
   final Color? titleColor;
 
-  /// 按钮背景颜色
+  ///按钮背景颜色
   final Color? bgColor;
 
-  /// 点击回调
+  ///点击回调
   final VoidCallback? onTap;
 
-  /// 默认父布局可用空间
+  ///默认父布局可用空间
   final double? width;
-
-  /// button theme config
   final BrnButtonConfig? themeData;
 
-  /// create BrnBigGhostButton
   const BrnBigGhostButton({
     Key? key,
-    this.title,
+    this.title = '确认',
     this.titleColor,
     this.bgColor,
     this.onTap,
@@ -66,7 +62,7 @@ class BrnBigGhostButton extends StatelessWidget {
           defaultThemeConfig.commonConfig.brandPrimary.withOpacity(0.05),
       onTap: onTap,
       alignment: Alignment.center,
-      text: title ?? BrnIntl.of(context).localizedResource.confirm,
+      text: title,
       textColor: titleColor ?? defaultThemeConfig.commonConfig.brandPrimary,
       fontSize: defaultThemeConfig.bigButtonFontSize,
     );

@@ -1,3 +1,5 @@
+
+
 import 'package:bruno/bruno.dart';
 import 'package:example/sample/home/list_item.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +75,7 @@ class DialogEntryPage extends StatelessWidget {
               },
             ),
             ListItem(
-              title: "标题+信息+警示",
+              title: "标题+信息+警示+单按钮",
               isSupportTheme: true,
               describe: '有标题、单按钮、有辅助文案',
               onPressed: () {
@@ -81,7 +83,7 @@ class DialogEntryPage extends StatelessWidget {
               },
             ),
             ListItem(
-              title: "标题+信息+自定义警示UI",
+              title: "标题+信息+自定义警示UI+单按钮",
               isSupportTheme: true,
               describe: '有标题、单按钮、有辅助文案',
               onPressed: () {
@@ -200,13 +202,6 @@ class DialogEntryPage extends StatelessWidget {
               },
             ),
             ListItem(
-              title: "Safe Dialog",
-              describe: '可以放心 pop 的 Dialog，防止误关闭页面',
-              onPressed: () {
-                _showSafeDialog(context);
-              },
-            ),
-            ListItem(
               title: "Share Dialog",
               isSupportTheme: true,
               describe: '分享Dialog（五个 icon）',
@@ -312,7 +307,8 @@ class DialogEntryPage extends StatelessWidget {
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(8.0),
                         hintText: hintText,
-                        hintStyle: TextStyle(fontSize: 14, color: Color(0xFFCCCCCC)),
+                        hintStyle:
+                            TextStyle(fontSize: 14, color: Color(0xFFCCCCCC)),
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(2.0),
                             borderSide: BorderSide(
@@ -404,7 +400,8 @@ class DialogEntryPage extends StatelessWidget {
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.all(8.0),
                       hintText: hintText,
-                      hintStyle: TextStyle(fontSize: 14, color: Color(0xFFCCCCCC)),
+                      hintStyle:
+                          TextStyle(fontSize: 14, color: Color(0xFFCCCCCC)),
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(2.0),
                           borderSide: BorderSide(
@@ -550,7 +547,8 @@ class DialogEntryPage extends StatelessWidget {
 
   ///对话框样式一：无标题、单按钮
   void _showStyle1Dialog0(BuildContext context) {
-    BrnDialogManager.showSingleButtonDialog(context, label: "知道了", message: "辅助内容容信息", onTap: () {
+    BrnDialogManager.showSingleButtonDialog(context,
+        label: "知道了", message: "辅助内容容信息", onTap: () {
       BrnToast.show('知道了', context);
       Navigator.pop(context);
     });
@@ -582,7 +580,9 @@ class DialogEntryPage extends StatelessWidget {
   ///对话框样式二：有标题、单按钮、有辅助文案
   void _showStyle2Dialog(BuildContext context) {
     BrnDialogManager.showSingleButtonDialog(context,
-        title: "标题内容", label: "知道了", message: "辅助内容信息辅助内容信息辅助内容信息辅助内容信息辅助内容信息", onTap: () {
+        title: "标题内容",
+        label: "知道了",
+        message: "辅助内容信息辅助内容信息辅助内容信息辅助内容信息辅助内容信息", onTap: () {
       BrnToast.show('知道了', context);
       Navigator.pop(context);
     });
@@ -634,7 +634,8 @@ class DialogEntryPage extends StatelessWidget {
           '选项二',
           '选项三',
         ],
-        title: "标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题", indexedActionClickCallback: (index) {
+        title: "标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题",
+        indexedActionClickCallback: (index) {
       BrnToast.show("$index", context);
     });
   }
@@ -647,7 +648,8 @@ class DialogEntryPage extends StatelessWidget {
           '选项二',
           '选项三',
         ],
-        message: "辅助内容信息辅助内容信息辅助内容信息辅助内容信息辅助内容信息", indexedActionClickCallback: (index) {
+        message: "辅助内容信息辅助内容信息辅助内容信息辅助内容信息辅助内容信息",
+        indexedActionClickCallback: (index) {
       BrnToast.show("$index", context);
     });
   }
@@ -661,7 +663,8 @@ class DialogEntryPage extends StatelessWidget {
           '选项二',
           '选项三',
         ],
-        message: "辅助内容信息辅助内容信息辅助内容信息辅助内容信息辅助内容信息", indexedActionClickCallback: (index) {
+        message: "辅助内容信息辅助内容信息辅助内容信息辅助内容信息辅助内容信息",
+        indexedActionClickCallback: (index) {
       BrnToast.show("$index", context);
     });
   }
@@ -684,8 +687,8 @@ class DialogEntryPage extends StatelessWidget {
 
   ///对话框样式七：单按钮 有头部Icon、辅助信息为文案
   void _showStyle7Dialog(BuildContext context) {
-    BrnDialogManager.showSingleButtonDialog(context, showIcon: true, title: "恭喜你完成填写", label: "确定",
-        onTap: () {
+    BrnDialogManager.showSingleButtonDialog(context,
+        showIcon: true, title: "恭喜你完成填写", label: "确定", onTap: () {
       BrnToast.show("确定", context);
       Navigator.pop(context);
     });
@@ -694,7 +697,9 @@ class DialogEntryPage extends StatelessWidget {
   ///对话框样式八：两个按钮，换行标题
   void _showStyle8Dialog(BuildContext context) {
     BrnDialogManager.showConfirmDialog(context,
-        title: "标题内容,标题内容,标题内容标题内容,标题内容标题内容,标题内容", cancel: '取消', confirm: '确定', onConfirm: () {
+        title: "标题内容,标题内容,标题内容标题内容,标题内容标题内容,标题内容",
+        cancel: '取消',
+        confirm: '确定', onConfirm: () {
       BrnToast.show("确定", context);
     }, onCancel: () {
       BrnToast.show("取消", context);
@@ -748,43 +753,11 @@ class DialogEntryPage extends StatelessWidget {
 
   ///底部有输入框弹框
   void _showBrnLoadingDialog(BuildContext context) {
-    BrnLoadingDialog.show(context).then((value) {
-          BrnToast.show('result: $value', context);
-        });
-    Future.delayed(Duration(seconds: 5)).then((_) {
-      BrnLoadingDialog.dismiss(context, 'dismiss 定时取消');
-    });
-  }
-
-  ///安全关闭的弹框
-  void _showSafeDialog(BuildContext context) {
-    BrnSafeDialog.show(
-        context: context,
-        tag: "AA",
-        builder: (context) {
-          return BrnPageLoading(
-            content: 'Safe AA',
-          );
-        }).then((result) {
-      BrnToast.show('result: $result ', context);
-    });
-
-    BrnSafeDialog.show(
-        context: context,
-        builder: (context) {
-          return BrnPageLoading(
-            content: 'Safe BB',
-          );
-        }).then((result) {
-      BrnToast.show('result: $result ', context);
-    });
-
-    Future.delayed(Duration(seconds: 5)).then((_) {
-      BrnSafeDialog.dismiss(context: context, tag: "AA", result: 'delete dialog AA by tag AA');
-    });
+    BrnLoadingDialog.show(context);
 
     Future.delayed(Duration(seconds: 10)).then((_) {
-      BrnSafeDialog.dismiss(context: context, result: 'delete dialog BB by default tag');
+      BrnLoadingDialog.dismiss(context);
+      BrnToast.show('定时取消', context);
     });
   }
 

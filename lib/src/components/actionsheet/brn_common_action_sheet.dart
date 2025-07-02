@@ -1,12 +1,11 @@
-import 'package:bruno/src/l10n/brn_intl.dart';
+import 'dart:ui';
+
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/theme/configs/brn_action_sheet_config.dart';
 import 'package:flutter/material.dart';
 
-/// Action Item 的点击事件回调
 typedef BrnCommonActionSheetItemClickCallBack = void Function(
     int index, BrnCommonActionSheetItem actionItem);
-/// Action Item 点击事件拦截回调
 typedef BrnCommonActionSheetItemClickInterceptor =  bool Function(
     int index, BrnCommonActionSheetItem actionItem);
 
@@ -22,7 +21,6 @@ enum BrnCommonActionSheetItemStyle {
   alert,
 }
 
-/// create BrnCommonActionSheetItem
 class BrnCommonActionSheetItem {
   /// 标题文字
   String title;
@@ -42,7 +40,7 @@ class BrnCommonActionSheetItem {
   BrnCommonActionSheetItem(
     this.title, {
     this.desc,
-    this.actionStyle = BrnCommonActionSheetItemStyle.normal,
+    this.actionStyle: BrnCommonActionSheetItemStyle.normal,
     this.titleStyle,
     this.descStyle,
   });
@@ -109,7 +107,7 @@ class BrnCommonActionSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    EdgeInsets padding = MediaQueryData.fromView(View.of(context)).padding;
+    EdgeInsets padding = MediaQueryData.fromWindow(window).padding;
     double maxHeight =
         MediaQuery.of(context).size.height - padding.top - padding.bottom;
 
@@ -230,8 +228,8 @@ class BrnCommonActionSheet extends StatelessWidget {
     );
   }
 
-  /// 配置每个选项内部信息
-  /// action 每个item配置项 [BrnCommonActionSheetItem]
+  // 配置每个选项内部信息
+  // action 每个item配置项 [BrnCommonActionSheetItem]
   Widget _configTile(BrnCommonActionSheetItem action) {
     List<Widget> tileElements = [];
     // 添加标题
@@ -287,7 +285,7 @@ class BrnCommonActionSheet extends StatelessWidget {
         padding: EdgeInsets.only(top: 12, bottom: 12),
         child: Center(
           child: Text(
-            cancelTitle ?? BrnIntl.of(context).localizedResource.cancel,
+            cancelTitle ?? "取消",
             style: this.themeData!.cancelStyle.generateTextStyle(),
           ),
         ),

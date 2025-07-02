@@ -1,3 +1,4 @@
+import 'dart:ui';
 
 import 'package:bruno/src/components/button/brn_big_main_button.dart';
 import 'package:bruno/src/components/calendar/brn_calendar_view.dart';
@@ -12,37 +13,26 @@ import 'package:bruno/src/components/selection/widget/brn_selection_range_tag_wi
 import 'package:bruno/src/components/tabbar/normal/brn_tab_bar.dart';
 import 'package:bruno/src/components/toast/brn_toast.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/configs/brn_selection_config.dart';
 import 'package:bruno/src/utils/brn_event_bus.dart';
 import 'package:bruno/src/utils/brn_text_util.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
 
-/// 范围选择子组件
 class BrnRangeSelectionGroupWidget extends StatefulWidget {
-  /// 根节点的筛选数据
+  static final double screenWidth =
+      window.physicalSize.width / window.devicePixelRatio;
+
   final BrnSelectionEntity entity;
-
-  /// 最大高度
   final double maxContentHeight;
-
-  /// 是否显示选中数量
   final bool showSelectedCount;
-
-  /// 背景点击事件
   final VoidCallback? bgClickFunction;
-
-  /// 确认按钮点击事件
   final BrnOnRangeSelectionConfirm? onSelectionConfirm;
 
-  /// 每行 tag 数
   final int? rowCount;
 
-  /// 顶部间距
   final double marginTop;
 
-  /// 主题配置
   final BrnSelectionConfig themeData;
 
   BrnRangeSelectionGroupWidget(
@@ -71,7 +61,6 @@ class _BrnRangeSelectionGroupWidgetState
   int _firstIndex = -1;
   int _secondIndex = -1;
   int totalLevel = 0;
-  late double _screenWidth;
 
   late TabController _tabController;
 
@@ -82,7 +71,6 @@ class _BrnRangeSelectionGroupWidgetState
 
   @override
   void initState() {
-    _screenWidth = View.of(context).physicalSize.width / View.of(context).devicePixelRatio;
     _initData();
     _tabController = TabController(vsync: this, length: _firstList.length);
     if (_firstIndex >= 0) {
@@ -238,13 +226,13 @@ class _BrnRangeSelectionGroupWidgetState
     ///如果指定展示列，则按照指定列展示，否则动态计算宽度。最大不超过四列。
     if (widget.rowCount == null) {
       int oneCountTagWidth =
-          (_screenWidth - 40 - 12 * (1 - 1)) ~/ 1;
+          (BrnRangeSelectionGroupWidget.screenWidth - 40 - 12 * (1 - 1)) ~/ 1;
       int twoCountTagWidth =
-          (_screenWidth - 40 - 12 * (2 - 1)) ~/ 2;
+          (BrnRangeSelectionGroupWidget.screenWidth - 40 - 12 * (2 - 1)) ~/ 2;
       int threeCountTagWidth =
-          (_screenWidth - 40 - 12 * (3 - 1)) ~/ 3;
+          (BrnRangeSelectionGroupWidget.screenWidth - 40 - 12 * (3 - 1)) ~/ 3;
       int fourCountTagWidth =
-          (_screenWidth - 40 - 12 * (4 - 1)) ~/ 4;
+          (BrnRangeSelectionGroupWidget.screenWidth - 40 - 12 * (4 - 1)) ~/ 4;
       if (maxWidthSize.width > twoCountTagWidth) {
         tagWidth = oneCountTagWidth;
       } else if (threeCountTagWidth < maxWidthSize.width &&
@@ -257,7 +245,7 @@ class _BrnRangeSelectionGroupWidgetState
         tagWidth = fourCountTagWidth;
       }
     } else {
-      tagWidth = (_screenWidth -
+      tagWidth = (BrnRangeSelectionGroupWidget.screenWidth -
               40 -
               12 * (widget.rowCount! - 1)) ~/
           widget.rowCount!;
@@ -372,7 +360,7 @@ class _BrnRangeSelectionGroupWidgetState
       padding: EdgeInsets.fromLTRB(8, 11, 20, 11),
       child: Row(
         children: <Widget>[
-          GestureDetector(
+          InkWell(
             child: Container(
               padding: EdgeInsets.only(left: 12, right: 20),
               child: Column(
@@ -384,7 +372,7 @@ class _BrnRangeSelectionGroupWidgetState
                         BrunoTools.getAssetImage(BrnAsset.iconSelectionReset),
                   ),
                   Text(
-                    BrnIntl.of(context).localizedResource.reset,
+                    '重置',
                     style: widget.themeData.resetTextStyle.generateTextStyle(),
                   )
                 ],
@@ -394,7 +382,7 @@ class _BrnRangeSelectionGroupWidgetState
           ),
           Expanded(
             child: BrnBigMainButton(
-              title: BrnIntl.of(context).localizedResource.ok,
+              title: '确定',
               onTap: () {
                 _confirmButtonClickEvent();
               },
@@ -435,12 +423,12 @@ class _BrnRangeSelectionGroupWidgetState
         if (!rangeEntity.isValidRange()) {
           FocusScope.of(context).requestFocus(FocusNode());
           if (rangeEntity.filterType == BrnSelectionFilterType.range) {
-            BrnToast.show(BrnIntl.of(context).localizedResource.enterRangeError, context);
+            BrnToast.show('您输入的区间有误', context);
           } else if (rangeEntity.filterType ==
                   BrnSelectionFilterType.dateRange ||
               rangeEntity.filterType ==
                   BrnSelectionFilterType.dateRangeCalendar) {
-            BrnToast.show(BrnIntl.of(context).localizedResource.selectRangeError, context);
+            BrnToast.show('您选择的区间有误', context);
           }
           return;
         }
@@ -466,7 +454,7 @@ class _BrnRangeSelectionGroupWidgetState
     });
   }
 
-  /// 初始化数据
+  // 初始化数据
   void _initData() {
     // 生成筛选节点树
     _originalSelectedItemsList = widget.entity.selectedList();
@@ -484,7 +472,7 @@ class _BrnRangeSelectionGroupWidgetState
     _refreshDataSource();
   }
 
-  /// 设置默认无选中项的时候默认选择index
+  // 设置默认无选中项的时候默认选择index
   void _configDefaultInitSelectIndex() {
     _firstIndex = _secondIndex = -1;
   }
@@ -516,7 +504,7 @@ class _BrnRangeSelectionGroupWidgetState
     });
   }
 
-  /// 刷新3个ListView的数据源
+  // 刷新3个ListView的数据源
   void _refreshDataSource() {
     _firstList = widget.entity.children;
     if (_firstIndex >= 0 && _firstList.length > _firstIndex) {
@@ -554,7 +542,7 @@ class _BrnRangeSelectionGroupWidgetState
     }
   }
 
-  /// 设置数据为未选中状态
+  //设置数据为未选中状态
   void _resetSelectionDatas(BrnSelectionEntity entity) {
     entity.isSelected = false;
     entity.customMap = Map();

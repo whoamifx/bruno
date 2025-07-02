@@ -22,16 +22,18 @@ class BrnMarqueeText extends StatefulWidget {
   final int timerRest;
 
   /// 尽量设置宽高，自动算宽|高受布局影响较大
-  double width, height;
+  double width;
+
+  double height;
 
   BrnMarqueeText({
     required this.text,
-    this.width = 0,
-    this.height = 0,
-    this.timerRest = 100,
+    this.width: 0,
+    this.height: 0,
+    this.timerRest: 100,
     this.textStyle,
-    this.scrollAxis = Axis.horizontal,
-    this.ratioOfBlankToScreen = 0.25,
+    this.scrollAxis: Axis.horizontal,
+    this.ratioOfBlankToScreen: 0.25,
   });
 
   @override
@@ -126,9 +128,9 @@ class BrnMarqueeTextState extends State<BrnMarqueeText>
 
   Widget getCenterChild() {
     if (widget.scrollAxis == Axis.horizontal) {
-      return Container(width: blankWidth);
+      return new Container(width: blankWidth);
     } else {
-      return Container(height: blankHeight);
+      return new Container(height: blankHeight);
     }
   }
 

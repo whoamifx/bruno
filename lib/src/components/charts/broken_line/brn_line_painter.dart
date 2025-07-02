@@ -7,7 +7,6 @@ import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:flutter/material.dart';
 import 'package:path_drawing/path_drawing.dart';
 
-/// 折线图 刻度线、X/Y 轴绘制类
 class BrnLinePainter extends BrnBasePainter {
   final int lineSelectIndex;
   final int pointSelectIndex;
@@ -48,13 +47,8 @@ class BrnLinePainter extends BrnBasePainter {
   /// 绘制线条的参数内容
   List<BrnPointsLine> lines;
 
-  /// 是否展示 X、Y 轴刻度文本
   bool isShowXText, isShowYText;
 
-  /// 是否展示 X轴刻度
-  final bool isShowXDial;
-
-  /// 是否展示选中点对应的 X、Y 辅助虚线
   final bool showPointDashLine;
 
   /// 默认的边距
@@ -102,7 +96,6 @@ class BrnLinePainter extends BrnBasePainter {
     required this.isShowHintY,
     required this.hintLineSolid,
     required this.hintLineColor,
-    this.isShowXDial = true,
     this.isShowXText = false,
     this.isShowYText = false,
   }) {
@@ -112,15 +105,12 @@ class BrnLinePainter extends BrnBasePainter {
             '折线${i - 1}和$i条线的节点数不一致');
       }
     }
-    assert(yDialMax > yDialMin, "yDialMax 应该大于 yDialMin");
   }
 
-  /// 返回选中的点
   Point selectedPoint(int lineIndex, int pointIndex) {
     return _linePointPositions[lineIndex][pointIndex];
   }
 
-  /// 根据点击的位置和 point 的 index，遍历寻找出所属的 Line
   int lineIndexCompute(Offset offset, int pointIndex) {
     int index = -1;
     double margin = 15;
@@ -143,7 +133,6 @@ class BrnLinePainter extends BrnBasePainter {
       ..style = PaintingStyle.stroke;
     _init(canvas, size, xyPaint);
     _initPath(canvas, xyPaint);
-    _drawXy(canvas, xyPaint); //坐标轴
     _drawSelectPointWithIndex(canvas, xyPaint);
     _drawLine(canvas); //曲线或折线
     _drawPointDisplayText(canvas);
@@ -159,6 +148,7 @@ class BrnLinePainter extends BrnBasePainter {
     //初始化参数
     _initValue();
     _initBorder(size);
+    _drawXy(canvas, xyPaint); //坐标轴
   }
 
   void _initValue() {
@@ -205,13 +195,10 @@ class BrnLinePainter extends BrnBasePainter {
                   ((item.points[i].x - xDialMin!) /
                       (xDialMax! - xDialMin!) *
                       _fixedWidth);
-              var yPosition = _startY;
-              if (yDialMax != yDialMin) {
-                yPosition = _startY -
-                    ((item.points[i].y - yDialMin) /
-                        (yDialMax - yDialMin) *
-                        _fixedHeight);
-              }
+              var yPosition = _startY -
+                  ((item.points[i].y - yDialMin) /
+                      (yDialMax - yDialMin) *
+                      _fixedHeight);
               pointArr.add(Point(xPosition, yPosition));
             }
           } else {
@@ -322,46 +309,36 @@ class BrnLinePainter extends BrnBasePainter {
 
     if (lines.isNotEmpty) {
       //绘制x轴的文字部分
-      if (isShowXDial) {
-        _drawXRuler(canvas, paint..color = xDialColor!);
+      for (var item in lines) {
+        if (item.points.isNotEmpty && item.isShowXDial) {
+          _drawXRuler(canvas, paint..color = xDialColor!, item.points);
+        }
       }
     }
   }
 
   ///x轴刻度 & 辅助线
-  void _drawXRuler(Canvas canvas, Paint paint) {
-    double? _selectedPointX = -1.0;
-    if (lineSelectIndex >= 0 && pointSelectIndex >= 0) {
-        _selectedPointX = _linePointPositions[lineSelectIndex][pointSelectIndex].x as double? ;
-    }
+  void _drawXRuler(Canvas canvas, Paint paint, List<BrnPointData> points) {
     if (xDialValues != null && xDialValues!.isNotEmpty) {
       // 获取刻度长度
       for (var i = 0; i < xDialValues!.length; i++) {
-        double _xPosition = _startX +
-            (xDialValues![i].value - xDialMin!) /
-                (xDialMax! - xDialMin!) *
-                _fixedWidth;
-
-        _selectedPointX = _selectedPointX ?? 0.0;
-        bool isXRulerSelected = (_selectedPointX - _xPosition).abs() < 1.0;
-
         ///绘制x轴文本
         var tpX = TextPainter(
             textAlign: TextAlign.center,
             ellipsis: '.',
             text: TextSpan(
                 text: xDialValues![i].dialText,
-                style: isXRulerSelected
-                    ? xDialValues![i].selectedDialTextStyle ??
-                        xDialValues![i].dialTextStyle
-                    : xDialValues![i].dialTextStyle),
+                style: xDialValues![i].dialTextStyle),
             textDirection: TextDirection.ltr)
           ..layout();
         // 开始绘制刻度
         _drawXRuleByPointPosition(
             tpX,
             canvas,
-            _xPosition,
+            _startX +
+                (xDialValues![i].value - xDialMin!) /
+                    (xDialMax! - xDialMin!) *
+                    _fixedWidth,
             paint);
       }
     }
@@ -546,7 +523,7 @@ class BrnLinePainter extends BrnBasePainter {
                     style: item.points[i].pointTextStyle),
                 textDirection: TextDirection.ltr)
               ..layout();
-            double adjustOffset = _isAdjustPosition(lineIndex,
+            double adjustOffset = isAdjustPosition(lineIndex,
                     _linePointPositions[lineIndex][i], _linePointPositions)
                 ? (20 - tpX.height)
                 : -20;
@@ -565,10 +542,9 @@ class BrnLinePainter extends BrnBasePainter {
     }
   }
 
-  /// 是否需要调整位置
-  bool _isAdjustPosition(
+  bool isAdjustPosition(
       int lineIndex, Point currentPoint, List<List<Point<num>>> lines) {
-    List<Point<num>> sameXPoints = _getSameXValuePoints(currentPoint, lines);
+    List<Point<num>> sameXPoints = getSameXValuePoints(currentPoint, lines);
     if (sameXPoints.isNotEmpty) {
       if (currentPoint.distanceTo(sameXPoints[0]) == 0) {
         return lineIndex > 0;
@@ -579,8 +555,7 @@ class BrnLinePainter extends BrnBasePainter {
     return false;
   }
 
-  /// 获取相同x值的点
-  List<Point<num>> _getSameXValuePoints(
+  List<Point<num>> getSameXValuePoints(
       Point currentPoint, List<List<Point<num>>> lines) {
     List<Point<num>> sameXPoints = [];
     for (int lineIndex = 0; lineIndex < lines.length; lineIndex++) {
@@ -596,7 +571,7 @@ class BrnLinePainter extends BrnBasePainter {
   }
 }
 
-/// 绘制图表的计算之后的结果模型集
+//绘制图表的计算之后的结果模型集
 class LineCanvasModel {
   final List<Path> paths;
   final Color pathColor;

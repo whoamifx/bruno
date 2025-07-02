@@ -1,3 +1,5 @@
+
+
 import 'package:bruno/src/components/form/base/brn_form_item_type.dart';
 import 'package:bruno/src/components/form/base/input_item_interface.dart';
 import 'package:bruno/src/components/form/utils/brn_form_util.dart';
@@ -17,6 +19,9 @@ import 'package:flutter/material.dart';
 class BrnStarsFormItem extends StatefulWidget {
   /// 录入项的唯一标识，主要用于录入类型页面框架中
   final String? label;
+
+  /// 录入项类型，主要用于录入类型页面框架中
+  String type = BrnInputItemType.starInputType;
 
   /// 录入项标题
   final String title;
@@ -70,18 +75,18 @@ class BrnStarsFormItem extends StatefulWidget {
   BrnStarsFormItem(
       {Key? key,
       this.label,
-      this.title = "",
+      this.title: "",
       this.subTitle,
       this.tipLabel,
-      this.prefixIconType = BrnPrefixIconType.normal,
-      this.error = "",
-      this.isEdit = true,
-      this.isRequire = false,
+      this.prefixIconType: BrnPrefixIconType.normal,
+      this.error: "",
+      this.isEdit: true,
+      this.isRequire: false,
       this.onAddTap,
       this.onRemoveTap,
       this.onTip,
-      this.sumStar = 5,
-      this.value = 0,
+      this.sumStar: 5,
+      this.value: 0,
       this.onChanged,
       this.backgroundColor,
       this.themeData})
@@ -91,9 +96,8 @@ class BrnStarsFormItem extends StatefulWidget {
         .getConfig(configId: this.themeData!.configId)
         .formItemConfig
         .merge(this.themeData);
-    this.themeData = this
-        .themeData!
-        .merge(BrnFormItemConfig(backgroundColor: backgroundColor));
+    this.themeData = this.themeData!.merge(
+        BrnFormItemConfig(backgroundColor: backgroundColor));
   }
 
   @override

@@ -30,7 +30,6 @@ class BrnBarChartScaleStyle {
   /// 标注文案位置是否是在左侧，false表示在右侧，centerSubTitle有内容时有效
   bool isLeft;
 
-  /// create BrnBarChartScaleStyle
   BrnBarChartScaleStyle(
       {required this.title,
       this.titleStyle,
@@ -44,7 +43,6 @@ class BrnBarDataBean {
   /// x轴坐标显示字段
   String x;
 
-  /// y轴坐标显示字段
   String y;
 
   /// y轴的值
@@ -92,7 +90,6 @@ class BrnBarBean {
   ///用户当前进行位置的小图标（比如一个小锁），默认没有只显示y轴的值，如果有内容则显示这个小图标，
   ui.Image? placehoderImage;
 
-  /// create BrnBarBean
   BrnBarBean(
       {this.name,
       this.xTitleStyle,

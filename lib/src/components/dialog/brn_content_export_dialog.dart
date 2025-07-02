@@ -29,7 +29,6 @@ class BrnContentExportWidget extends StatelessWidget {
   /// 是否展示底部操作区域
   final bool isShowOperateWidget;
 
-  /// the theme config for common bruno dialog
   BrnDialogConfig? themeData;
 
   BrnContentExportWidget(this.contentWidget,
@@ -104,7 +103,7 @@ class BrnContentExportWidget extends StatelessWidget {
                 child: BrunoTools.getAssetImage(BrnAsset.iconPickerClose),
               )));
     }
-    return const SizedBox.shrink();
+    return Container();
   }
 
   /// 构建Dialog标题
@@ -129,7 +128,7 @@ class BrnContentExportWidget extends StatelessWidget {
             ? EdgeInsets.fromLTRB(20, 12, 20, 20)
             : EdgeInsets.only(top: 20),
         child: isShowOperateWidget
-            ?  GestureDetector(
+            ? InkWell(
                 child: Container(
                     decoration: BoxDecoration(
                       //背景
@@ -150,6 +149,6 @@ class BrnContentExportWidget extends StatelessWidget {
                   if (onSubmit != null) onSubmit!();
                 },
               )
-            : const SizedBox.shrink());
+            : Container());
   }
 }

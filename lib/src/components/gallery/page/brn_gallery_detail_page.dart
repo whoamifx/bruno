@@ -5,7 +5,6 @@ import 'package:bruno/src/components/gallery/config/brn_controller.dart';
 import 'package:bruno/src/components/gallery/page/brn_gallery_summary_page.dart';
 import 'package:bruno/src/components/navbar/brn_appbar.dart';
 import 'package:bruno/src/components/tabbar/normal/brn_tab_bar.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/theme/configs/brn_appbar_config.dart';
 import 'package:bruno/src/theme/configs/brn_gallery_detail_config.dart';
@@ -17,7 +16,7 @@ import 'package:flutter/material.dart';
 /// 组件提供了（列表页<-->详情页）这种交互模式的骨架，
 /// 适用于查看图片，视频 PDF 等场景。
 /// 默认只实现了图片的查看，如果想要扩展视频或者pdf自行扩展配置接口可实现。
-// ignore: must_be_immutable
+/// ignore: must_be_immutable
 class BrnGalleryDetailPage extends StatefulWidget {
   /// 该交互下所有 item 的配置集合
   final List<BrnBasicGroupConfig> allConfig;
@@ -91,10 +90,10 @@ class _BrnGalleryDetailPageState extends State<BrnGalleryDetailPage>
     _appBarConfig = BrnThemeConfigurator.instance
         .getConfig(configId: widget.themeData!.configId)
         .appBarConfig
-        .merge(widget.themeData!.appbarConfig).merge(BrnAppBarConfig(
+        .merge(BrnAppBarConfig(
             titleStyle: widget.themeData!.appbarTitleStyle,
             backgroundColor: widget.themeData!.appbarBackgroundColor,
-            actionsStyle: widget.themeData!.appbarActionStyle,));
+            actionsStyle: widget.themeData!.appbarActionStyle));
 
     // 打平 tabBar
     _tabBarConfig = BrnThemeConfigurator.instance
@@ -254,6 +253,7 @@ class _BrnGalleryDetailPageState extends State<BrnGalleryDetailPage>
     return Scaffold(
       key: GlobalKey(),
       appBar: BrnAppBar(
+        brightness: widget.themeData!.appbarBrightness,
         backgroundColor: _appBarConfig!.backgroundColor,
         showDefaultBottom: false,
         themeData: _appBarConfig,
@@ -273,7 +273,7 @@ class _BrnGalleryDetailPageState extends State<BrnGalleryDetailPage>
                 valueListenable: _titleNotifier!,
               )
             : BrnTextAction(
-                BrnIntl.of(context).localizedResource.allPics,
+                '全部图片',
                 themeData: _appBarConfig,
                 iconPressed: () {
                   if (widget.fromSummary) {

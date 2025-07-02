@@ -5,7 +5,6 @@ import 'package:bruno/src/components/selection/brn_more_selection.dart';
 import 'package:bruno/src/components/selection/brn_selection_util.dart';
 import 'package:bruno/src/components/toast/brn_toast.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/theme/configs/brn_selection_config.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
@@ -146,7 +145,7 @@ class _BrnLayerMoreSelectionPageState extends State<BrnLayerMoreSelectionPage>
                 systemOverlayStyle: SystemUiOverlayStyle.dark,
                 backgroundColor: Colors.white,
                 title: Text(
-                  BrnIntl.of(context).localizedResource.selectTitle(widget.entityData.title),
+                  '选择${widget.entityData.title}',
                   style: TextStyle(
                       color: BrnThemeConfigurator.instance
                           .getConfig()
@@ -237,7 +236,7 @@ class _BrnLayerMoreSelectionPageState extends State<BrnLayerMoreSelectionPage>
               if (!this._firstList[index].isSelected) {
                 if (!BrnSelectionUtil.checkMaxSelectionCount(
                     _firstList[index])) {
-                  BrnToast.show(BrnIntl.of(context).localizedResource.filterConditionCountLimited, context);
+                  BrnToast.show('您选择的筛选条件数量已达上限', context);
                   setState(() {});
                   return;
                 } else {
@@ -261,7 +260,7 @@ class _BrnLayerMoreSelectionPageState extends State<BrnLayerMoreSelectionPage>
     );
   }
 
-  /// 清空
+  //清空
   Widget _buildBottomBtn() {
     return Align(
       alignment: Alignment.bottomLeft,
@@ -374,7 +373,7 @@ class _BrnLayerMoreSelectionPageState extends State<BrnLayerMoreSelectionPage>
               if (!_currentFirstEntity!.children[index].isSelected) {
                 if (!BrnSelectionUtil.checkMaxSelectionCount(
                     this._currentFirstEntity!.children[index])) {
-                  BrnToast.show(BrnIntl.of(context).localizedResource.filterConditionCountLimited, context);
+                  BrnToast.show('您选择的筛选条件数量已达上限', context);
                   return;
                 }
               }
@@ -470,8 +469,8 @@ class _BrnLayerMoreSelectionPageState extends State<BrnLayerMoreSelectionPage>
     }
   }
 
-  /// 初始化二级的选中（小白楼）
-  /// 规则：如果二级没有选中的，那么 选中二级的不限
+  //初始化二级的选中（小白楼）
+  //规则：如果二级没有选中的，那么 选中二级的不限
   void setInitialSecondShowingItem(BrnSelectionEntity currentFirstEntity) {
     //设置初始化的二级筛选条件 -1没有
     int secondIndex = currentFirstEntity.getFirstSelectedChildIndex();

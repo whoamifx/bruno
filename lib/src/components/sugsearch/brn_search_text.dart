@@ -1,5 +1,4 @@
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
@@ -227,9 +226,7 @@ class _SearchTextState extends State<BrnSearchText> {
                                       .colorTextBase,
                                   fontSize: 16),
                           decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: widget.borderRadius,
-                                borderSide: BorderSide.none),
+                            border: InputBorder.none,
                             contentPadding: EdgeInsets.only(left: 8, right: 6),
                             // 填充颜色属性，填充装饰容器的颜色。
                             fillColor: widget.innerColor,
@@ -243,7 +240,7 @@ class _SearchTextState extends State<BrnSearchText> {
                                   textBaseline: TextBaseline.alphabetic,
                                   color: Color(0xff999999),
                                 ),
-                            hintText: widget.hintText ?? BrnIntl.of(context).localizedResource.inputSearchTip,
+                            hintText: widget.hintText ?? "请输入搜索内容",
                             counterText: '',
                           ),
                           // 在改变属性，当正在编辑的文本发生更改时调用。
@@ -302,7 +299,7 @@ class _SearchTextState extends State<BrnSearchText> {
                     child: Container(
                       padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
                       child: Text(
-                        BrnIntl.of(context).localizedResource.cancel,
+                        '取消',
                         style: TextStyle(
                             color: BrnThemeConfigurator.instance
                                 .getConfig()

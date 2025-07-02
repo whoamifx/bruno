@@ -1,4 +1,3 @@
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,7 +34,7 @@ class BrnInputText extends StatelessWidget {
   final Color bgColor;
 
   /// 输入框的hint文字，默认为"请输入..."
-  final String? hint;
+  final String hint;
 
   /// 输入框的初始值，默认为""
   /// 不能定义为String，兼容example调用的传值
@@ -59,7 +58,6 @@ class BrnInputText extends StatelessWidget {
   /// 搜索框的焦点控制器
   final FocusNode? focusNode;
 
-
   /// 键盘输入行为， 默认为 TextInputAction.done
   final TextInputAction textInputAction;
 
@@ -80,7 +78,7 @@ class BrnInputText extends StatelessWidget {
     this.bgColor = Colors.white,
     this.maxLength = 200,
     this.minLines = 1,
-    this.hint,
+    this.hint = "请输入",
     this.maxHintLines,
     this.padding = EdgeInsets.zero,
     this.textString = "",
@@ -176,7 +174,7 @@ class BrnInputText extends StatelessWidget {
           );
         },
         decoration: InputDecoration(
-          hintText: hint ?? BrnIntl.of(context).localizedResource.pleaseEnter,
+          hintText: hint,
           hintMaxLines: maxHintLines,
           hintStyle: TextStyle(fontSize: 16.0, color: Color(0xFFCCCCCC)),
           contentPadding: EdgeInsets.all(0),

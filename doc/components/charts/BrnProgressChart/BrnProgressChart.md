@@ -41,9 +41,7 @@ const BrnProgressChart(
       this.brnProgressIndicatorBuilder,
       this.colors = const [Colors.blueAccent, Colors.blue],
       this.backgroundColor = Colors.lightBlueAccent,
-      this.showAnimation = false,
-      this.isFromLastValue = false,
-      this.duration = const Duration(milliseconds: 250),})
+      this.showAnimation = false})
       : assert(0 <= value && value <= 1, 'value 必须在 0 到 1 之间'),
         super(key: key);
 ```
@@ -60,8 +58,6 @@ const BrnProgressChart(
 | colors | `List<Color>` | 进度条颜色 | 否 | [Colors.blueAccent, Colors.blue] |
 | backgroundColor | Color | 背景色 | 否 | Colors.lightBlueAccent |
 | showAnimation | bool | 是否展示动画 | 否 | false |
-| duration | Duration | 动画时长 | 是 | Duration(milliseconds: 250) |
-| isFromLastValue | bool | 进度条动画是否从上次的值开始 | 是 | false |
 
 ## 四、代码演示
 

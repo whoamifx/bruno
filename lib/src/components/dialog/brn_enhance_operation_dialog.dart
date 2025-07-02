@@ -1,7 +1,6 @@
 import 'package:bruno/src/components/button/brn_big_main_button.dart';
 import 'package:bruno/src/components/dialog/brn_dialog.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/theme/configs/brn_dialog_config.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
@@ -48,7 +47,7 @@ class BrnEnhanceOperationDialog extends StatelessWidget {
   final String? descText;
 
   /// 主要按钮文本
-  final String? mainButtonText;
+  final String mainButtonText;
 
   /// 次要按钮文案，为空则不显示次要按钮
   final String? secondaryButtonText;
@@ -68,7 +67,7 @@ class BrnEnhanceOperationDialog extends StatelessWidget {
     required this.context,
     this.titleText,
     this.descText,
-    this.mainButtonText,
+    this.mainButtonText = '确认',
     this.secondaryButtonText,
     this.onMainButtonClick,
     this.onSecondaryButtonClick,
@@ -152,9 +151,9 @@ class BrnEnhanceOperationDialog extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(left: 20, right: 20),
       child: BrnBigMainButton(
-        title: mainButtonText ?? BrnIntl.of(context).localizedResource.confirm,
+        title: mainButtonText,
         onTap: () {
-          Navigator.of(context).pop(mainButtonText ?? BrnIntl.of(context).localizedResource.confirm);
+          Navigator.of(context).pop(mainButtonText);
         },
       ),
     );

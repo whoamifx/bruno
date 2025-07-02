@@ -3,17 +3,11 @@ import 'dart:math';
 import 'package:bruno/src/components/dialog/brn_dialog.dart';
 import 'package:bruno/src/components/line/brn_line.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
 
-/// 获取对应 index 行内容的回调。类型必须为 String 或者自定义的 widget.自定义 widget 时，左边的 icon 会自动隐藏，自定义widget填充整行。
 typedef BrnItemTitleBuilder<T> = dynamic Function(int index, T entity);
-
-/// 每一行删除按钮的点击回调。返回值：是否要删除该 entity，如果该 handler 没有实现或者返回 true，则删除
 typedef BrnItemDeleteCallback<T> = bool Function(int deleteIdx, T deleteEntity);
-
-/// 视图隐藏时的回调，会把是否是清空按钮触发的销毁视图回传
 typedef BrnListDismissCallback = void Function(bool isClosedByClearButton);
 
 
@@ -25,7 +19,7 @@ class BrnSelectedListActionSheetController extends ChangeNotifier {
   /// 是否关闭列表
   bool isSelectedListDismissed = false;
 
-  /// 视图是否隐藏
+  // 视图是否隐藏
   bool _isHidden = true;
 
   /// 刷新整个列表数据
@@ -43,7 +37,6 @@ class BrnSelectedListActionSheetController extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// 视图是否隐藏
   bool get isHidden {
     return _isHidden;
   }
@@ -56,8 +49,6 @@ class BrnSelectedListActionSheetController extends ChangeNotifier {
 ///    自动与 globalKey 绑定的组件左右对齐，并从其顶部弹出。clear
 /// 2. 外界需要自己监听 Android 上的系统返回事件，并且调用组件的 [dismiss] 方法！否则，组件不能正常关闭。
 class BrnSelectedListActionSheet<T> {
-
-  /// 用来获取 Overlay
   final BuildContext context;
 
   /// 数据源列表
@@ -122,7 +113,6 @@ class BrnSelectedListActionSheet<T> {
   double _bottomKeyOffset = 0;
   double? _maxWidth;
 
-  /// create BrnSelectedListActionSheet
   BrnSelectedListActionSheet(
       {required this.context,
       this.maxHeight = 290,
@@ -166,7 +156,7 @@ class BrnSelectedListActionSheet<T> {
     _bottomKeyOffset = MediaQuery.of(context).size.height - (offset?.dy ?? 0);
     this._innerShow(true);
   }
-  /// 展示弹层
+
   void show() {
     this._innerShow(false);
   }
@@ -305,7 +295,7 @@ class _BrnActionSheetSelectedItemListState<T>
         duration: const Duration(milliseconds: 200), vsync: this);
     widget._alphaAnimationController = alphaAnimationController;
     Animation<double> yAnimation =
-        Tween(begin: 65.0, end: this._getContentHeight())
+        Tween(begin: 65.0, end: this.getContentHeight())
             .animate(yAnimationController)
           ..addListener(() {
             setState(() => {});
@@ -324,22 +314,21 @@ class _BrnActionSheetSelectedItemListState<T>
     alphaAnimationController.forward();
   }
 
-  /// 关闭弹窗
   void dismissContent(bool isClear) {
     _isClosedByClear = isClear;
     widget.dismissWithAnimation();
   }
 
-  double _getContentHeight() {
+  double getContentHeight() {
     return widget.itemWidget.maxHeight;
   }
 
-  void _onClearAction() {
+  void onClearAction() {
     if (widget.itemWidget.onClear == null) {
       // 如果没有实现 onClear，执行默认弹窗并删除的逻辑
       this.dismissContent(true);
       BrnDialogManager.showConfirmDialog(context,
-          title: BrnIntl.of(context).localizedResource.confirmClearSelectedList, cancel: BrnIntl.of(context).localizedResource.cancel, confirm: BrnIntl.of(context).localizedResource.ok, onConfirm: () {
+          title: "确定要清空已选列表吗?", cancel: '取消', confirm: '确定', onConfirm: () {
         if (widget.itemWidget.onClearConfirmed != null) {
           widget.itemWidget.onClearConfirmed!();
         }
@@ -354,7 +343,7 @@ class _BrnActionSheetSelectedItemListState<T>
     }
   }
 
-  void _onDeleteItemAction(int idx) {
+  void onDeleteItemAction(int idx) {
     if (idx >= widget.itemWidget.items.length) {
       debugPrint(
           'idx:$idx out of range of selectedModelList:${widget.itemWidget.items.length}!!!');
@@ -378,7 +367,7 @@ class _BrnActionSheetSelectedItemListState<T>
     String title =
         (widget.itemWidget.title != null && widget.itemWidget.title!.isNotEmpty)
             ? widget.itemWidget.title!
-            : BrnIntl.of(context).localizedResource.selectedList;
+            : '已选列表';
     TextStyle titleStyle = const TextStyle(
         fontSize: 18,
         color: Color(0xff222222),
@@ -398,11 +387,11 @@ class _BrnActionSheetSelectedItemListState<T>
     if (!widget.itemWidget.isClearButtonHidden) {
       Widget clearWidget = GestureDetector(
         onTap: () {
-          this._onClearAction();
+          this.onClearAction();
         },
         child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 20, 20, 15),
-            child: Text(BrnIntl.of(context).localizedResource.clear,
+            child: Text("清空",
                 textAlign: TextAlign.right,
                 style: TextStyle(
                     fontSize: 16,
@@ -427,7 +416,7 @@ class _BrnActionSheetSelectedItemListState<T>
     }
 
     // 视图的高度
-    double contentHeight = this._getContentHeight();
+    double contentHeight = this.getContentHeight();
 
     return GestureDetector(
       onTap: () {
@@ -508,7 +497,7 @@ class _BrnActionSheetSelectedItemListState<T>
                                             .itemWidget.isDeleteButtonHidden,
                                         child: GestureDetector(
                                           onTap: () {
-                                            this._onDeleteItemAction(index);
+                                            this.onDeleteItemAction(index);
                                           },
                                           child: Container(
                                               color: Colors.white,

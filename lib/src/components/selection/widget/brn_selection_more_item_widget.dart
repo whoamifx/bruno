@@ -13,10 +13,10 @@ import 'package:bruno/src/components/selection/widget/brn_layer_more_selection_p
 import 'package:bruno/src/components/selection/widget/brn_selection_date_range_item_widget.dart';
 import 'package:bruno/src/components/toast/brn_toast.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/theme/configs/brn_selection_config.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
+import 'package:bruno/src/utils/i18n/brn_date_picker_i18n.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -191,7 +191,10 @@ class __FilterCommonTypeWidgetState extends State<_FilterCommonTypeWidget> {
   /// 自定义筛选条件的显示
   Widget _buildRangeWidget() {
     return widget.selectionEntity.currentRangeListForEntity().isEmpty
-        ? const SizedBox.shrink()
+        ? Container(
+            height: 0,
+            width: 0,
+          )
         : _MoreRangeWidget(
             themeData: widget.themeData,
             streamController: streamController,
@@ -226,7 +229,7 @@ class __FilterCommonTypeWidgetState extends State<_FilterCommonTypeWidget> {
               } else if (data.filterType == BrnSelectionFilterType.checkbox) {
                 if (!data.isSelected) {
                   if (!BrnSelectionUtil.checkMaxSelectionCount(data)) {
-                    BrnToast.show(BrnIntl.of(context).localizedResource.filterConditionCountLimited, context);
+                    BrnToast.show('您选择的筛选条件数量已达上限', context);
                     return;
                   }
                 }
@@ -261,7 +264,8 @@ class __FilterCommonTypeWidgetState extends State<_FilterCommonTypeWidget> {
             DateTime.now().millisecondsSinceEpoch;
         showName = DateTimeFormatter.formatDate(
             DateTime.fromMillisecondsSinceEpoch(time),
-            'yyyy/MMMM/dd');
+            'yyyy/MMMM/dd',
+            DateTimePickerLocale.zh_cn);
       }
     } else {
       showName = entity.title;
@@ -298,7 +302,7 @@ class __FilterCommonTypeWidgetState extends State<_FilterCommonTypeWidget> {
         pickerMode: BrnDateTimePickerMode.date,
         pickerTitleConfig: BrnPickerTitleConfig.Default,
         initialDateTime: DateTime.fromMillisecondsSinceEpoch(time),
-        dateFormat: BrnIntl.of(context).localizedResource.dateFormatYYYYMMMMDD, onConfirm: (dateTime, list) {
+        dateFormat: 'yyyy年,MMMM月,dd日', onConfirm: (dateTime, list) {
       if (mounted) {
         setState(() {
           data.parent?.clearSelectedEntity();
@@ -350,7 +354,7 @@ class __MoreArrowState extends State<_MoreArrow> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(
-              BrnIntl.of(context).localizedResource.more,
+              '更多',
               style: widget.themeData?.moreTextStyle.generateTextStyle(),
             ),
             Container(
@@ -517,20 +521,20 @@ class __MoreRangeWidgetState extends State<_MoreRangeWidget> {
         children: <Widget>[
           Expanded(
             child: _buildRangeField(
-                BrnIntl.of(context).localizedResource.minValue, minController, minFocusNode, widget.themeData),
+                '最小值', minController, minFocusNode, widget.themeData),
           ),
           Container(
 //          height: 38,
             alignment: Alignment.center,
             child: Text(
-              BrnIntl.of(context).localizedResource.to,
+              '至',
               textAlign: TextAlign.center,
               style: widget.themeData.inputTextStyle.generateTextStyle(),
             ),
           ),
           Expanded(
             child: _buildRangeField(
-                BrnIntl.of(context).localizedResource.maxValue, maxController, maxFocusNode, widget.themeData),
+                '最大值', maxController, maxFocusNode, widget.themeData),
           ),
         ],
       );
@@ -650,7 +654,7 @@ class _FilterLayerTypeWidgetState extends State<FilterLayerTypeWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(
-                  child: Text(_isEmptyCondition() ? BrnIntl.of(context).localizedResource.pleaseChoose : _getCondition(),
+                  child: Text(_isEmptyCondition() ? '请选择' : _getCondition(),
                       style: _isEmptyCondition()
                           ? widget.themeData.hintTextStyle.generateTextStyle()
                           : widget.themeData.optionTextStyle

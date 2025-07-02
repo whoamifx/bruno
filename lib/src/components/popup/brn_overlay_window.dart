@@ -1,5 +1,6 @@
 import 'dart:core';
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:bruno/src/components/popup/brn_measure_size.dart';
 import 'package:flutter/material.dart';
@@ -97,7 +98,7 @@ class _BrnOverlayWindowState extends State<BrnOverlayWindow> {
   @override
   Widget build(BuildContext context) {
     this._showRect = _getWidgetGlobalRect(widget.targetKey);
-    this._screenSize = View.of(context).physicalSize / View.of(context).devicePixelRatio;
+    this._screenSize = window.physicalSize / window.devicePixelRatio;
     if (this._showRect == null) {
       return const SizedBox.shrink();
     }
@@ -236,7 +237,6 @@ class _BrnOverlayWindowState extends State<BrnOverlayWindow> {
   }
 }
 
-/// [OverlayWindow] 组件展示隐藏控制器
 class BrnOverlayController {
   OverlayEntry? _entry;
 
@@ -247,15 +247,13 @@ class BrnOverlayController {
 
   BrnOverlayController._(this.context, this._entry);
 
-  /// 显示OverlayWindow
   showOverlay() {
     if (_entry != null) {
-      Overlay.of(context).insert(_entry!);
+      Overlay.of(context)?.insert(_entry!);
       _isOverlayShowing = true;
     }
   }
 
-  /// 移除OverlayWindow
   void removeOverlay() {
     _entry?.remove();
     _entry = null;

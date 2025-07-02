@@ -11,9 +11,9 @@ import 'package:bruno/src/components/selection/controller/brn_flat_selection_con
 import 'package:bruno/src/components/selection/widget/brn_layer_more_selection_page.dart';
 import 'package:bruno/src/components/toast/brn_toast.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/configs/brn_selection_config.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
+import 'package:bruno/src/utils/i18n/brn_date_picker_i18n.dart';
 import 'package:flutter/cupertino.dart';
 
 ///更多的筛选项里面的single 项
@@ -222,7 +222,10 @@ class __FilterCommonTypeWidgetState extends State<_FilterCommonTypeWidget> {
   /// 自定义筛选条件的显示
   Widget _buildRangeWidget() {
     return widget.selectionEntity.currentRangeListForEntity().isEmpty
-        ? const SizedBox.shrink()
+        ? Container(
+            height: 0,
+            width: 0,
+          )
         : _MoreRangeWidget(
             streamController: _streamController,
             clearController: widget.clearController,
@@ -249,7 +252,7 @@ class __FilterCommonTypeWidgetState extends State<_FilterCommonTypeWidget> {
             } else if (data.filterType == BrnSelectionFilterType.checkbox) {
               if (!data.isSelected) {
                 if (!BrnSelectionUtil.checkMaxSelectionCount(data)) {
-                  BrnToast.show(BrnIntl.of(context).localizedResource.filterConditionCountLimited, context);
+                  BrnToast.show('您选择的筛选条件数量已达上限', context);
                   return;
                 }
               }
@@ -303,7 +306,8 @@ class __FilterCommonTypeWidgetState extends State<_FilterCommonTypeWidget> {
             DateTime.now().millisecondsSinceEpoch;
         showName = DateTimeFormatter.formatDate(
             DateTime.fromMillisecondsSinceEpoch(time),
-            'yyyy/MMMM/dd');
+            'yyyy/MMMM/dd',
+            DateTimePickerLocale.zh_cn);
       }
     } else {
       showName = data.title;
@@ -341,7 +345,7 @@ class __FilterCommonTypeWidgetState extends State<_FilterCommonTypeWidget> {
         pickerMode: BrnDateTimePickerMode.date,
         pickerTitleConfig: BrnPickerTitleConfig.Default,
         initialDateTime: DateTime.fromMillisecondsSinceEpoch(time),
-        dateFormat: BrnIntl.of(context).localizedResource.dateFormatYYYYMMMMDD, onConfirm: (dateTime, list) {
+        dateFormat: 'yyyy年,MMMM月,dd日', onConfirm: (dateTime, list) {
       if (mounted) {
         setState(() {
           data.parent?.clearSelectedEntity();
@@ -387,7 +391,7 @@ class __MoreArrowState extends State<_MoreArrow> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text(BrnIntl.of(context).localizedResource.more,
+            Text('更多',
                 style: widget.themeData.moreTextStyle.generateTextStyle()),
             Container(
               height: 16,
@@ -559,7 +563,7 @@ class __MoreRangeWidgetState extends State<_MoreRangeWidget> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         _buildRangeField(
-            BrnIntl.of(context).localizedResource.minValue, minController, minFocusNode, widget.width, widget.themeData),
+            '最小值', minController, minFocusNode, widget.width, widget.themeData),
         Padding(
           padding: EdgeInsets.only(left: 2),
         ),
@@ -572,7 +576,7 @@ class __MoreRangeWidgetState extends State<_MoreRangeWidget> {
           padding: EdgeInsets.only(right: 2),
         ),
         _buildRangeField(
-            BrnIntl.of(context).localizedResource.maxValue, maxController, maxFocusNode, widget.width, widget.themeData),
+            '最大值', maxController, maxFocusNode, widget.width, widget.themeData),
       ],
     );
   }
@@ -680,7 +684,7 @@ class _FilterLayerTypeWidgetState extends State<FilterLayerTypeWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Expanded(
-                  child: Text(isEmptyCondition() ? BrnIntl.of(context).localizedResource.pleaseChoose : getCondition(),
+                  child: Text(isEmptyCondition() ? '请选择' : getCondition(),
                       style: isEmptyCondition()
                           ? widget.themeData.hintTextStyle.generateTextStyle()
                           : widget.themeData.optionTextStyle

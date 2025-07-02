@@ -25,14 +25,9 @@ import 'package:flutter/material.dart';
 ///  * [BrnBubbleText], 气泡背景的文本组件
 ///
 class BrnInsertInfo extends StatelessWidget {
-
-  /// 显示的文本
   final String infoText;
-
-  /// 最多显示的行数，如果实际的行数超标，就折断
   final int maxLines;
 
-  /// create BrnInsertInfo
   const BrnInsertInfo({Key? key, required this.infoText, this.maxLines = 2})
       : super(key: key);
 
@@ -52,7 +47,7 @@ class BrnInsertInfo extends StatelessWidget {
       ),
     );
 
-    Color color = const Color(0xFFF8F8F8);
+    Color color = Color(0xFFF8F8F8);
     Image image = BrunoTools.getAssetImage('icons/icon_right_top_pointer.png');
 
     Widget bubbleText = Row(
@@ -64,17 +59,17 @@ class BrnInsertInfo extends StatelessWidget {
                 color: color,
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.only(
-                    topLeft: const Radius.circular(0),
-                    topRight: const Radius.circular(4),
-                    bottomLeft: const Radius.circular(4),
-                    bottomRight: const Radius.circular(4))),
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
+                    topLeft: Radius.circular(0),
+                    topRight: Radius.circular(4),
+                    bottomLeft: Radius.circular(4),
+                    bottomRight: Radius.circular(4))),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 12, bottom: 12),
             child: tx,
           ),
         )
       ],
     );
-    return ColoredBox(
+    return Container(
       color: Colors.transparent,
       child: Column(
         mainAxisSize: MainAxisSize.min,

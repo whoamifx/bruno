@@ -58,6 +58,7 @@ class BrnExpandableGroup extends StatefulWidget {
   /// Additional content displayed below the title.
   ///
   /// Typically a [Text] widget.
+
   final String? subtitle;
 
   /// Called when the tile expands or collapses.
@@ -78,7 +79,6 @@ class BrnExpandableGroup extends StatefulWidget {
   /// Specifies if the list tile is initially expanded (true) or collapsed (false, the default).
   final bool initiallyExpanded;
 
-  /// the theme config of BrnFormItem
   BrnFormItemConfig? themeData;
 
   @override
@@ -104,13 +104,13 @@ class _BrnExpansionElementState extends State<BrnExpandableGroup>
 
   bool _isExpanded = false;
 
-  Widget? _arrowIcon;
+  Widget? arrowIcon;
 
   @override
   void initState() {
     super.initState();
     _isExpanded =
-        PageStorage.of(context).readState(context) ?? widget.initiallyExpanded;
+        PageStorage.of(context)?.readState(context) ?? widget.initiallyExpanded;
 
     _controller = AnimationController(
         duration: Duration(milliseconds: 200) /*_kExpand*/, vsync: this);
@@ -127,9 +127,9 @@ class _BrnExpansionElementState extends State<BrnExpandableGroup>
     }
 
     if (_isExpanded) {
-      _arrowIcon = BrunoTools.getAssetSizeImage(BrnAsset.iconDownArrow, 12, 12);
+      arrowIcon = BrunoTools.getAssetSizeImage(BrnAsset.iconDownArrow, 12, 12);
     } else {
-      _arrowIcon = BrunoTools.getAssetSizeImage(BrnAsset.iconUpArrow, 12, 12);
+      arrowIcon = BrunoTools.getAssetSizeImage(BrnAsset.iconUpArrow, 12, 12);
     }
   }
 
@@ -149,7 +149,7 @@ class _BrnExpansionElementState extends State<BrnExpandableGroup>
           if (!mounted) return;
         });
       }
-      PageStorage.of(context).writeState(context, _isExpanded);
+      PageStorage.of(context)?.writeState(context, _isExpanded);
     });
     if (widget.onExpansionChanged != null) {
       widget.onExpansionChanged!(_isExpanded);
@@ -205,7 +205,7 @@ class _BrnExpansionElementState extends State<BrnExpandableGroup>
                   ),
                   RotationTransition(
                     turns: _iconTurns,
-                    child: _arrowIcon,
+                    child: arrowIcon,
                   )
                 ],
               ),
@@ -234,8 +234,8 @@ class _BrnExpansionElementState extends State<BrnExpandableGroup>
 
     /// title 文字颜色
     _headerColorTween
-      ..begin = theme.textTheme.titleMedium!.color
-      ..end = theme.textTheme.titleMedium!.color;
+      ..begin = theme.textTheme.subtitle1!.color
+      ..end = theme.textTheme.subtitle1!.color;
 
     /// 展开收起图标颜色
     _iconColorTween

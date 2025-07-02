@@ -2,19 +2,22 @@
 
 import 'package:bruno/src/components/picker/time_picker/brn_date_picker_constants.dart';
 import 'package:bruno/src/components/picker/base/brn_picker_title_config.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme.dart';
+import 'package:bruno/src/utils/i18n/brn_date_picker_i18n.dart';
 import 'package:flutter/material.dart';
 
 /// DatePicker's title widget.
+
 // ignore: must_be_immutable
 class BrnPickerTitle extends StatelessWidget {
   final BrnPickerTitleConfig pickerTitleConfig;
+  final DateTimePickerLocale? locale;
   final DateVoidCallback onCancel, onConfirm;
   BrnPickerConfig? themeData;
 
   BrnPickerTitle({
     Key? key,
+    this.locale,
     required this.onCancel,
     required this.onConfirm,
     this.pickerTitleConfig = BrnPickerTitleConfig.Default,
@@ -54,28 +57,17 @@ class BrnPickerTitle extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  child: Container(
-                    height: themeData!.titleHeight,
-                    alignment: Alignment.center,
-                    child: _renderCancelWidget(context),
-                  ),
+                  child: _renderCancelWidget(context),
                   onTap: () {
                     this.onCancel();
                   },
                 ),
                 Text(
-                  pickerTitleConfig.titleContent ??
-                      BrnIntl.of(context).localizedResource.pleaseChoose,
+                  pickerTitleConfig.titleContent,
                   style: themeData!.titleTextStyle.generateTextStyle(),
                 ),
                 GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  child: Container(
-                    height: themeData!.titleHeight,
-                    alignment: Alignment.center,
-                    child: _renderConfirmWidget(context),
-                  ),
+                  child: _renderConfirmWidget(context),
                   onTap: () {
                     this.onConfirm();
                   },
@@ -99,7 +91,7 @@ class BrnPickerTitle extends StatelessWidget {
     if (cancelWidget == null) {
       TextStyle textStyle = themeData!.cancelTextStyle.generateTextStyle();
       cancelWidget = Text(
-        BrnIntl.of(context).localizedResource.cancel,
+        '取消',
         style: textStyle,
         textAlign: TextAlign.left,
       );
@@ -113,7 +105,7 @@ class BrnPickerTitle extends StatelessWidget {
     if (confirmWidget == null) {
       TextStyle textStyle = themeData!.confirmTextStyle.generateTextStyle();
       confirmWidget = Text(
-        BrnIntl.of(context).localizedResource.done,
+        '完成',
         style: textStyle,
         textAlign: TextAlign.right,
       );

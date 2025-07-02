@@ -1,10 +1,10 @@
 import 'dart:core';
+import 'dart:ui';
 
 import 'package:bruno/src/constants/brn_asset_constants.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/utils/brn_text_util.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// popup window 位于 targetView 的方向
@@ -193,7 +193,7 @@ class _BrnPopupWindowState extends State<BrnPopupWindow> {
   void initState() {
     super.initState();
     this._showRect = _getWidgetGlobalRect(widget.popKey);
-    this._screenSize =PlatformDispatcher.instance.views.first.physicalSize/ PlatformDispatcher.instance.views.first.devicePixelRatio;
+    this._screenSize = window.physicalSize / window.devicePixelRatio;
     _borderColor = (widget.borderColor ?? Colors.transparent).withAlpha(255);
     _backgroundColor =
         (widget.backgroundColor ?? Colors.transparent).withAlpha(255);
@@ -254,7 +254,7 @@ class _BrnPopupWindowState extends State<BrnPopupWindow> {
               color: Colors.transparent,
               child: Stack(
                 children: <Widget>[
-                  _buildPopWidget(context),
+                  _buildPopWidget(),
                   // triangle arrow
                   _buildArrowWidget(),
                 ],
@@ -311,9 +311,9 @@ class _BrnPopupWindowState extends State<BrnPopupWindow> {
   }
 
   // popWindow的弹出样式
-  Widget _buildPopWidget(BuildContext context) {
+  Widget _buildPopWidget() {
     // 状态栏高度
-    double statusBarHeight = MediaQueryData.fromView(View.of(context)).padding.top;
+    double statusBarHeight = MediaQueryData.fromWindow(window).padding.top;
     return Positioned(
         left: _expandedRight ? _left : null,
         right: _expandedRight ? null : _right,
@@ -556,7 +556,6 @@ class BrnPopupListWindow {
       {List<String>? data,
       BrnPopupDirection popDirection = BrnPopupDirection.bottom,
       double offset = 0,
-      double? arrowOffset,
       BrnPopupListItemClick? onItemClick,
       VoidCallback? onDismiss}) {
     assert(popKey.currentContext != null && popKey.currentContext!.findRenderObject() != null);
@@ -568,6 +567,7 @@ class BrnPopupListWindow {
     double minWidth = 100;
     double maxWidth = 150;
     double maxHeight = 200;
+    double? arrowOffset;
     Color borderColor = BrnThemeConfigurator.instance.getConfig().commonConfig.dividerColorBase;
     Color backgroundColor = Colors.white;
     TextStyle textStyle = TextStyle(

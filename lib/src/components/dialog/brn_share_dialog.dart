@@ -2,7 +2,6 @@ import 'package:bruno/src/components/dialog/brn_dialog.dart';
 import 'package:bruno/src/components/dialog/brn_dialog_utils.dart';
 import 'package:bruno/src/constants/brn_asset_constants.dart';
 import 'package:bruno/src/constants/brn_constants.dart';
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme_configurator.dart';
 import 'package:bruno/src/theme/configs/brn_dialog_config.dart';
 import 'package:bruno/src/utils/brn_tools.dart';
@@ -20,13 +19,6 @@ typedef BrnShareDialogGetCustomShareItemTitle = String? Function(int index);
 /// index为自定义分享item索引
 typedef BrnShareDialogGetCustomShareItemIcon = Widget? Function(int index);
 
-///
-/// 屏幕中间 dialog 弹窗
-/// 可指定最多五个需要展示的分享渠道图标（目前内设有：微信，朋友圈，qq，qq 空间，微博，链接，短信）
-/// 如需展示内设渠道之外的分享渠道，支持自定义展示渠道图标
-/// 可自定义分享弹框标题文案
-/// 可自定义分享弹框辅助信息
-/// 可自定义文案和分享渠道中间的分割线内文案
 // ignore: must_be_immutable
 class BrnShareDialog extends StatelessWidget {
   final BuildContext context;
@@ -161,7 +153,9 @@ class BrnShareDialog extends StatelessWidget {
           Positioned(
             top: 10,
             right: 10,
-            child: GestureDetector(
+            child: InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               child: Container(
                 width: 30,
                 height: 30,
@@ -192,7 +186,7 @@ class BrnShareDialog extends StatelessWidget {
             color: Color(0xffffffff),
             padding: EdgeInsets.only(left: 6, right: 6),
             child: Text(
-              separatorText ?? BrnIntl.of(context).localizedResource.shareWayTip,
+              separatorText ?? "你可以通过以下方式分享给客户",
               style: TextStyle(fontSize: 12, color: shareTextColor),
             ),
           ),
@@ -219,7 +213,7 @@ class BrnShareDialog extends StatelessWidget {
         }
       } else {
         // 获取自预设channel信息
-        title = BrnIntl.of(context).localizedResource.shareChannels[shareChannels[index]];
+        title = BrnShareItemConstants.shareItemTitleList[shareChannels[index]];
         image = BrunoTools.getAssetImage(
             BrnShareItemConstants.shareItemImagePathList[shareChannels[index]]);
       }
@@ -233,7 +227,7 @@ class BrnShareDialog extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            GestureDetector(
+            InkWell(
               child: Container(
                 child: image,
                 width: 39,

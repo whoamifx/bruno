@@ -1,6 +1,10 @@
+import 'package:bruno/src/components/navbar/brn_appbar.dart';
 import 'package:bindings_compatible/bindings_compatible.dart';
-import 'package:bruno/bruno.dart';
 import 'package:bruno/src/components/navbar/brn_appbar_theme.dart';
+import 'package:bruno/src/constants/brn_asset_constants.dart';
+import 'package:bruno/src/constants/brn_strings_constants.dart';
+import 'package:bruno/src/theme/brn_theme_configurator.dart';
+import 'package:bruno/src/utils/brn_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -28,7 +32,6 @@ typedef BrnSearchBarInputSubmitCallback = Function(String input);
 /// 该组件是[BrnAppBar]的特例包装，
 /// 实现的思路是：将[BrnAppBar.title]设置为textField
 /// 更多信息 请查看[BrnAppBar]
-//ignore: must_be_immutable
 class BrnSearchAppbar extends PreferredSize {
   /// 搜索框的文本输入控制器
   final TextEditingController? controller;
@@ -69,14 +72,13 @@ class BrnSearchAppbar extends PreferredSize {
   /// 是否默认获取焦点
   final bool autoFocus;
 
+  /// searchBar 主题
+  final Brightness brightness;
+
   /// 清空回调
   final VoidCallback? onClearTap;
 
-  final SystemUiOverlayStyle? systemOverlayStyle;
-
-  BrnAppBarConfig? themeData;
-
-  BrnSearchAppbar(
+  const BrnSearchAppbar(
       {this.controller,
       this.focusNode,
       this.leading,
@@ -89,25 +91,16 @@ class BrnSearchAppbar extends PreferredSize {
       this.dismissStyle,
       this.showDivider = true,
       this.autoFocus = true,
+      this.brightness = Brightness.dark,
       this.onClearTap,
-      this.systemOverlayStyle,
-      this.inputTextStyle,
-      this.themeData})
-      : super(child: const Center(), preferredSize: const Size(0, 0)){
-    this.themeData ??= BrnAppBarConfig.dark();
-    this.themeData = BrnThemeConfigurator.instance
-        .getConfig(configId: this.themeData!.configId)
-        .appBarConfig
-        .merge(this.themeData)
-        .merge(BrnAppBarConfig(systemUiOverlayStyle: systemOverlayStyle));
-  }
+      this.inputTextStyle})
+      : super(child: const Center(), preferredSize: const Size(0, 0));
 
   @override
   Widget get child => BrnAppBar(
-        systemOverlayStyle: systemOverlayStyle,
+        brightness: brightness,
         automaticallyImplyLeading: false,
-        themeData: themeData,
-        title: _createSearchChild(themeData!),
+        title: _createSearchChild(),
       );
 
   @override
@@ -120,7 +113,7 @@ class BrnSearchAppbar extends PreferredSize {
     return super.build(context);
   }
 
-  Widget _createSearchChild(BrnAppBarConfig themeData) {
+  Widget _createSearchChild() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -143,13 +136,13 @@ class BrnSearchAppbar extends PreferredSize {
           dismissStyle: dismissStyle,
           showDivider: showDivider,
           clearTapCallback: onClearTap,
-              themeData: themeData,
+          brightness: brightness,
         )),
       ],
     );
   }
 }
-//ignore: must_be_immutable
+
 class _SearchInputWidget extends StatefulWidget {
   final FocusNode? focusNode;
   final TextEditingController? textEditingController;
@@ -165,8 +158,7 @@ class _SearchInputWidget extends StatefulWidget {
   final bool showDivider;
   final bool autoFocus;
   final VoidCallback? clearTapCallback;
-
-  BrnAppBarConfig? themeData;
+  final Brightness? brightness;
 
   _SearchInputWidget(
       {this.focusNode,
@@ -176,14 +168,14 @@ class _SearchInputWidget extends StatefulWidget {
       this.textEditingController,
       this.searchBarInputChangeCallback,
       this.searchBarInputSubmitCallback,
-      this.hint,
+      this.hint = '请输入搜索内容',
       this.hintStyle,
       this.inputTextStyle,
       this.showDivider = true,
       this.autoFocus = true,
       this.dismissStyle,
       this.clearTapCallback,
-      this.themeData});
+      this.brightness});
 
   @override
   __SearchInputWidgetState createState() => __SearchInputWidgetState();
@@ -207,7 +199,7 @@ class __SearchInputWidgetState extends State<_SearchInputWidget> {
 
     valueNotifier = ValueNotifier(false);
     _focusNode.addListener(_handleFocusChangeListenerTick);
-    if (widget.themeData?.systemOverlayStyle.statusBarBrightness == Brightness.dark) {
+    if (widget.brightness == Brightness.dark) {
       _defaultDividerColor = Colors.white.withOpacity(0.2);
       _defaultHintTextColor = Colors.white.withOpacity(0.4);
       _defaultInputTextColor = Colors.white;
@@ -317,8 +309,7 @@ class __SearchInputWidgetState extends State<_SearchInputWidget> {
                             color: _defaultHintTextColor,
                           ),
                       // 提示文本属性，提示字段接受哪种输入的文本。
-                      hintText: widget.hint ??
-                          BrnIntl.of(context).localizedResource.inputSearchTip,
+                      hintText: widget.hint,
                     ),
                     // 在改变属性，当正在编辑的文本发生更改时调用。
                     onChanged: (content) {
@@ -379,7 +370,7 @@ class __SearchInputWidgetState extends State<_SearchInputWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          BrnIntl.of(context).localizedResource.cancel,
+                          '取消',
                           style: widget.dismissStyle ??
                               TextStyle(
                                   color: _defaultCancelTextColor,
@@ -393,7 +384,10 @@ class __SearchInputWidgetState extends State<_SearchInputWidget> {
                       ],
                     ),
                   )
-                : const SizedBox.shrink();
+                : Container(
+                    height: 0,
+                    width: 0,
+                  );
           },
         ),
       ],
@@ -415,6 +409,9 @@ class __SearchInputWidgetState extends State<_SearchInputWidget> {
       return widget.leading;
     }
 
-    return const SizedBox.shrink();
+    return Container(
+      height: 0,
+      width: 0,
+    );
   }
 }

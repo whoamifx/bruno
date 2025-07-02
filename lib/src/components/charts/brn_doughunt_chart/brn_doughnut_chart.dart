@@ -26,7 +26,6 @@ class BrnDoughnutDataItem {
   /// 占用位置
   double radius = 0;
 
-  /// 展示部件
   BrnDoughnutDataItem({
     required this.value,
     required this.title,
@@ -72,7 +71,6 @@ class BrnDoughnut extends CustomPainter {
   /// 文本垂直间距
   double textVerticalPadding = 5;
 
-  /// create BrnDoughnut
   BrnDoughnut(
       {this.ringWidth = 50,
       required this.data,
@@ -130,9 +128,9 @@ class BrnDoughnut extends CustomPainter {
           item.startRadius == selectedItem?.startRadius) {
         // 画引线
         Offset indicarorLPoint =
-            _calcOffsetWith(item.middleRadius, indicatorLCircleRadius);
+            calcOffsetWith(item.middleRadius, indicatorLCircleRadius);
         Offset indicatorRPoint =
-            _calcOffsetWith(item.middleRadius, indicatorRCircleRadius);
+            calcOffsetWith(item.middleRadius, indicatorRCircleRadius);
         Offset revisedIndicarorLPoint = Offset(
           indicarorLPoint.dx + center.dx.roundToDouble(),
           indicarorLPoint.dy + center.dy.roundToDouble(),
@@ -152,7 +150,7 @@ class BrnDoughnut extends CustomPainter {
             revisedIndicarorLPoint, revisedIndicatorRPoint, _paintIndicator);
 
         /// 画水平线
-        Offset indicatorEndOffset = _calcHorizontalOffset(
+        Offset indicatorEndOffset = calcHorizontalOffset(
             revisedIndicarorLPoint, revisedIndicatorRPoint);
         canvas.drawLine(
             revisedIndicatorRPoint, indicatorEndOffset, _paintIndicator);
@@ -205,13 +203,13 @@ class BrnDoughnut extends CustomPainter {
     }
   }
 
-  Offset _calcOffsetWith(double angle, double radius) {
+  Offset calcOffsetWith(double angle, double radius) {
     double dy = (sin(angle) * radius).roundToDouble();
     double dx = (cos(angle) * radius).roundToDouble();
     return Offset(dx, dy);
   }
 
-  Offset _calcHorizontalOffset(Offset offset1, Offset offset2) {
+  Offset calcHorizontalOffset(Offset offset1, Offset offset2) {
     double dx = 0;
     double dy = offset2.dy;
     if (offset1.dx <= offset2.dx) {
@@ -233,7 +231,7 @@ class BrnDoughnut extends CustomPainter {
     int length = data.length;
     for (int i = 0; i < length; i++) {
       BrnDoughnutDataItem item = data[i];
-      double radain = _pointRadianInSector(position);
+      double radain = pointRadianInSector(position);
       if (item.startRadius < radain &&
           radain < (item.startRadius + item.radius)) {
         if (null != brnDoughnutSelectCallback) {
@@ -247,7 +245,7 @@ class BrnDoughnut extends CustomPainter {
     return super.hitTest(position);
   }
 
-  double _pointRadianInSector(Offset position) {
+  double pointRadianInSector(Offset position) {
     Offset relativePosition =
         Offset(position.dx - circleCenter.dx, position.dy - circleCenter.dy);
     double round = acos(relativePosition.dx /
@@ -293,7 +291,6 @@ class BrnDoughnutChart extends StatelessWidget {
   /// 饼图数据
   final List<BrnDoughnutDataItem> data;
 
-  /// create BrnDoughnutChart
   BrnDoughnutChart(
       {this.width = 0,
       this.height = 0,

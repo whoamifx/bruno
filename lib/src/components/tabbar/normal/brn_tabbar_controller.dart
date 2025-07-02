@@ -30,27 +30,22 @@ class BrnTabbarController extends ChangeNotifier {
   ///
   int selectIndex = 0;
 
-  /// 设置选中的位置
-  /// [index] 选中的位置
   void setSelectIndex(int index) {
     selectIndex = index;
     notifyListeners();
   }
 
-  /// 设置更多选项弹出
   void show() {
     isShow = true;
     notifyListeners();
   }
 
-  /// 设置更多选项隐藏
   void hide() {
     isShow = false;
     notifyListeners();
   }
 }
 
-/// 关闭更多弹框事件
 class CloseWindowEvent {
   bool? isShow = false;
 
@@ -80,7 +75,6 @@ class BrnCloseWindowController {
     isShow = state;
   }
 
-  /// 关闭 "更多" 弹框
   void closeMoreWindow() {
     _closeController.add(CloseWindowEvent());
   }

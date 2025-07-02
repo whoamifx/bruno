@@ -48,7 +48,6 @@ class _ListItemState extends State<ListItem> with AutomaticKeepAliveClientMixin 
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return TextButton(
       onPressed: widget.onPressed,
       style: ButtonStyle(

@@ -49,7 +49,7 @@ class BrnAppraiseConfig {
   final bool showConfirmButton;
 
   /// 确认按钮的文案，默认 '提交'
-  final String? confirmButtonText;
+  final String confirmButtonText;
 
   /// 外部控制提交button的enable状态,null有效，不设置默认值
   final bool? isConfirmButtonEnabled;
@@ -63,7 +63,6 @@ class BrnAppraiseConfig {
   /// 选择标签的回调
   final BrnAppraiseTagClick? tagSelectCallback;
 
-  /// create BrnAppraiseConfig
   const BrnAppraiseConfig({
     this.showHeader = true,
     this.headerPadding,
@@ -80,7 +79,7 @@ class BrnAppraiseConfig {
     this.inputDefaultText,
     this.inputMaxHeight = 120,
     this.showConfirmButton = true,
-    this.confirmButtonText,
+    this.confirmButtonText = '提交',
     this.isConfirmButtonEnabled,
     this.iconClickCallback,
     this.inputTextChangeCallback,

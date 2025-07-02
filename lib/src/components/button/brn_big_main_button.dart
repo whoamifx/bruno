@@ -1,4 +1,3 @@
-import 'package:bruno/src/l10n/brn_intl.dart';
 import 'package:bruno/src/theme/brn_theme.dart';
 import 'package:flutter/material.dart';
 import 'brn_normal_button.dart';
@@ -27,9 +26,10 @@ import 'brn_normal_button.dart';
 /// 其他按钮如下：
 ///  * [BrnBigGhostButton], 大主色调的幽灵按钮
 ///  * [BrnBigOutlineButton], 大边框按钮
+
 class BrnBigMainButton extends StatelessWidget {
   ///按钮显示文案,默认'确认'
-  final String? title;
+  final String title;
 
   ///是否可用,false 是置灰效果
   final bool isEnable;
@@ -43,13 +43,11 @@ class BrnBigMainButton extends StatelessWidget {
   ///背景颜色
   final Color? bgColor;
 
-  /// button theme config
   final BrnButtonConfig? themeData;
 
-  /// create BrnBigMainButton
   const BrnBigMainButton({
     Key? key,
-    this.title,
+    this.title = '确认',
     this.width,
     this.isEnable = true,
     this.onTap,
@@ -71,7 +69,7 @@ class BrnBigMainButton extends StatelessWidget {
           height: defaultThemeConfig.bigButtonHeight),
       alignment: Alignment.center,
       isEnable: isEnable,
-      text: title ?? BrnIntl.of(context).localizedResource.confirm,
+      text: title,
       borderRadius: BorderRadius.all(Radius.circular(defaultThemeConfig.bigButtonRadius)),
       fontSize: defaultThemeConfig.bigButtonFontSize,
       backgroundColor: bgColor ?? defaultThemeConfig.commonConfig.brandPrimary,

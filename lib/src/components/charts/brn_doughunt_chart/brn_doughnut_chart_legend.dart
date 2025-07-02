@@ -1,7 +1,6 @@
 import 'package:bruno/src/components/charts/brn_doughunt_chart/brn_doughnut_chart.dart';
 import 'package:flutter/material.dart';
 
-/// 排列方式
 enum BrnDoughnutChartLegendStyle {
   /// 横向排列式
   wrap,
@@ -24,7 +23,6 @@ class DoughnutChartLegend extends StatelessWidget {
   /// 图例展示所用数据
   final List<BrnDoughnutDataItem> data;
 
-  /// create DoughnutChartLegend
   DoughnutChartLegend(
       {this.legendStyle = BrnDoughnutChartLegendStyle.wrap,
       required this.data});
@@ -34,7 +32,7 @@ class DoughnutChartLegend extends StatelessWidget {
     if (BrnDoughnutChartLegendStyle.list == this.legendStyle) {
       List<Widget> items = [];
       this.data.forEach((BrnDoughnutDataItem item) {
-        items.add(this._genItem(item));
+        items.add(this.genItem(item));
       });
       return Column(
         children: items,
@@ -42,7 +40,7 @@ class DoughnutChartLegend extends StatelessWidget {
     } else if (BrnDoughnutChartLegendStyle.wrap == this.legendStyle) {
       List<Widget> items = [];
       this.data.forEach((BrnDoughnutDataItem item) {
-        items.add(this._genItem(item));
+        items.add(this.genItem(item));
       });
 
       return Wrap(
@@ -55,7 +53,7 @@ class DoughnutChartLegend extends StatelessWidget {
     }
   }
 
-  Widget _genItem(BrnDoughnutDataItem item) {
+  Widget genItem(BrnDoughnutDataItem item) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[

@@ -104,6 +104,7 @@ class ExpansionGroupExample extends StatelessWidget {
               title: "展开收起分组",
               subTitle: "这里是副标题",
               deleteLabel: "删除",
+              tipLabel: "标签",
               error: "必填项不能为空",
               isRequire: true,
               isEdit: true,

@@ -48,10 +48,8 @@ class BrnActionCardTitle extends StatelessWidget {
   ///标题右侧的显示widget
   final Widget? subTitleWidget;
 
-  /// the theme config of themeData
   final BrnCardTitleConfig? themeData;
 
-  /// create BrnActionCardTitle
   BrnActionCardTitle({
     Key? key,
     required this.title,
@@ -132,7 +130,7 @@ class BrnActionCardTitle extends StatelessWidget {
         child: Text(this.subTitle!,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: _subTextStyle(defaultConfig)),
+            style: subTextStyle(defaultConfig)),
       );
     }
 
@@ -166,6 +164,6 @@ class BrnActionCardTitle extends StatelessWidget {
   }
 
   //标题右侧的小文字 样式
-  TextStyle _subTextStyle(BrnCardTitleConfig defaultConfig) =>
+  TextStyle subTextStyle(BrnCardTitleConfig defaultConfig) =>
       defaultConfig.subtitleTextStyle.generateTextStyle();
 }

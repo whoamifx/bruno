@@ -48,7 +48,6 @@ class BrnLineYPainter extends BrnBasePainter {
   /// 绘制线条的参数内容
   List<BrnPointsLine> lines;
 
-  /// 是否展示 X、Y 轴刻度文本
   bool isShowXDialText, isShowYDialText;
 
   double? selectX;

@@ -36,7 +36,6 @@ class BrnAppraiseEmojiItem extends StatefulWidget {
   /// item的padding，默认 EdgeInsets.only(horizontal: 7)
   final EdgeInsets padding;
 
-  /// create BrnAppraiseEmojiItem
   BrnAppraiseEmojiItem(
       {Key? key,
       required this.selectedName,

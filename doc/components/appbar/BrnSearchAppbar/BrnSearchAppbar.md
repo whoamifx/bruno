@@ -25,24 +25,23 @@ group:
 
 
 ```dart
-BrnSearchAppbar(
-      {this.controller,
-      this.focusNode,
-      this.leading,
-      this.leadClickCallback,
-      this.dismissClickCallback,
-      this.searchBarInputChangeCallback,
-      this.searchBarInputSubmitCallback,
-      this.hint,
-      this.hintStyle,
-      this.dismissStyle,
-      this.showDivider = true,
-      this.autoFocus = true,
-      this.onClearTap,
-      this.systemOverlayStyle,
-      this.inputTextStyle,
-      this.themeData})
-      : super(child: const Center(), preferredSize: const Size(0, 0));
+const BrnSearchAppbar(
+  {this.controller,
+  this.focusNode,
+  this.leading,
+  this.leadClickCallback,
+  this.dismissClickCallback,
+  this.searchBarInputChangeCallback,
+  this.searchBarInputSubmitCallback,
+  this.hint,
+  this.hintStyle,
+  this.dismissStyle,
+  this.showDivider = true,
+  this.autoFocus = true,
+  this.brightness = Brightness.dark,
+  this.onClearTap,
+  this.inputTextStyle})
+  : super(child: const Center(), preferredSize: const Size(0, 0));
 ```
 
 
@@ -61,7 +60,7 @@ BrnSearchAppbar(
 | dismissStyle | TextStyle? | 右侧Action的文本Style | 否 | 无 |
 | showDivider | bool | 是否展示底部分割线 | 否 | bool |
 | autoFocus | bool | 是否自动聚焦 | 否 | bool |
-| systemOverlayStyle | SystemUiOverlayStyle | 同    Appbar systemOverlayStyle | 否 | 无 |
+| brightness | Brightness | 主题配置 | 否 | Brightness.dark |
 | onClearTap | VoidCallback? | 点击清除按钮回调 | 否 |  |
 
 ## 四、效果及代码展示
